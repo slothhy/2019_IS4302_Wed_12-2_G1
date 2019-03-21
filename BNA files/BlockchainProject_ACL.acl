@@ -29,6 +29,15 @@ rule updateParcel {
   	action: ALLOW
 }
 
+rule performParcelUpdate {
+ 	description: "Allow logistics company to run parcel update tx"
+  	participant(m): "org.parceldelivery.model.LogisticCompany"
+  	operation: CREATE
+    resource(v): "org.parceldelivery.model.updateParcel"
+  	condition: (true)
+  	action: ALLOW
+}
+
 rule readLogisticCompany {
  	description: "Allow retailer to read logistic company asset"
   	participant(m): "org.parceldelivery.model.Retailer"
