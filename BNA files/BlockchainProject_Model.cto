@@ -1,0 +1,68 @@
+/*
+ * Model file for Parcel Delivery Blockchain
+ */
+
+namespace org.parceldelivery.model
+
+participant Retailer identified by retailerID {
+  o String retailerID
+  o String name
+  o Address address
+  o String email 
+  o String contactNum
+}
+
+ participant LogisticCompany identified by ID {
+  o String ID
+  o String name
+  o Address address
+  o String email 
+  o String contactNum
+  o Locality locality
+}
+
+participant Custom identified by customID {
+  o String customID
+  o String country
+}
+
+enum Locality {
+  o OVERSEAS
+  o LOCAL
+}
+
+concept Address {
+  o String house
+  o String street
+  o String country	
+  o String postalCode
+}
+
+asset Parcel identified by trackingID {
+  o String trackingID
+  o String itemDescription
+  o String parcelWeight
+  o Address recipientAddress
+  o String status
+  o String additionalInfo optional
+  --> Retailer retailer
+  --> LogisticCompany logisticcompany
+} 
+
+transaction createParcel {
+  o Parcel parcel
+}
+
+transaction updateParcel {
+  --> Parcel parcel
+  --> LogisticCompany logisticcompany
+  o String conditionOfParcel
+}
+
+transaction queryByPublic {
+  o String trackingID
+}
+
+transaction queryByCustom {
+  o String trackingID 
+}
