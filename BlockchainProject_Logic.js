@@ -4,7 +4,7 @@
 
 /**
  * Create a new parcel
- * @param  {org.parceldelivery.model.createParcel} createParcel - the create parcel transaction
+ * @param {org.parceldelivery.model.createParcel} createParcel - the create parcel transaction
  * @transaction
  */
 async function createParcel(createParcel) { 
@@ -16,7 +16,7 @@ async function createParcel(createParcel) {
      	newParcel.recipientAddress = createParcel.parcel.recipientAddress;
      	newParcel.status = createParcel.parcel.status;
      	newParcel.additionalInfo = createParcel.parcel.additonalInfo;
-     	newParcel.retailer = createParcel.parcel.retailer();
+     	newParcel.retailer = createParcel.parcel.retailer;
      	newParcel.logisticcompany = createParcel.parcel.logisticcompany;
    		return result.add(newParcel);
 	});
