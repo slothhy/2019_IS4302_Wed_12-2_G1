@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+:root {
+  --primary-color: #86c5da;
+  --font-stack: 'Source Sans Pro', sans-serif;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  min-height: 30vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.nav button {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  width: 140px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-stack);
+  letter-spacing: 0.05em;
+}
+
+.nav button:hover {
+  font-weight: 600;
+}
+
+.btn-register {
+  background-image: url('./static/bxs-user-plus.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.btn-logout {
+  background-image: url('./static/bx-log-out.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.btn-login {
+  background-image: url('./static/bx-log-in.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.btn-input {
+  background-image: url('./static/bxs-package.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.btn-track {
+  background-image: url('./static/bxs-truck.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
