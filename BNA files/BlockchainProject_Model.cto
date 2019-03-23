@@ -31,11 +31,34 @@ enum Locality {
   o LOCAL
 }
 
+enum Status {
+  o PROCESSING
+  o SHIPPED
+  o IN_DELIVERY
+  o DELIVERED
+}
+
 concept Address {
   o String house
   o String street
-  o String country	
+  o String country  
   o String postalCode
+}
+
+concept CustomsParcel {
+  o String trackingID
+  o String itemDescription
+  o String parcelWeight
+  o Address recipientAddress
+  o Status status
+  o String additionalInfo optional
+  o String conditionOfParcel
+  --> Retailer retailer
+  --> LogisticCompany logisticcompany
+}
+
+concept PublicParcel {
+  o Status status
 }
 
 asset Parcel identified by trackingID {
@@ -43,8 +66,9 @@ asset Parcel identified by trackingID {
   o String itemDescription
   o String parcelWeight
   o Address recipientAddress
-  o String status
+  o Status status
   o String additionalInfo optional
+  o String conditionOfParcel
   --> Retailer retailer
   --> LogisticCompany logisticcompany
 } 
