@@ -3,7 +3,7 @@
  */
 
 rule createParcel {
-  description: "Allow retailer to create parcel asset"
+    description: "Allow retailer to create parcel asset"
     participant(m): "org.parceldelivery.model.Retailer"
     operation: CREATE
     resource(v): "org.parceldelivery.model.Parcel"
@@ -12,7 +12,7 @@ rule createParcel {
 }
 
 rule performParcelCreation {
-  description: "Allow retailer to run parcel creation tx"
+    description: "Allow retailer to run parcel creation tx"
     participant(m): "org.parceldelivery.model.Retailer"
     operation: CREATE
     resource(v): "org.parceldelivery.model.createParcel"
@@ -21,7 +21,7 @@ rule performParcelCreation {
 }
 
 rule updateParcel {
-  description: "Allow logistics company to update parcel asset"
+    description: "Allow logistics company to update parcel asset"
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: UPDATE
     resource(v): "org.parceldelivery.model.Parcel"
@@ -30,7 +30,7 @@ rule updateParcel {
 }
 
 rule performParcelUpdate {
-  description: "Allow logistics company to run parcel update tx"
+    description: "Allow logistics company to run parcel update tx"
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
     resource(v): "org.parceldelivery.model.updateParcel"
@@ -39,7 +39,7 @@ rule performParcelUpdate {
 }
 
 rule readLogisticCompany {
-  description: "Allow retailer to read logistic company asset"
+    description: "Allow retailer to read logistic company asset"
     participant(m): "org.parceldelivery.model.Retailer"
     operation: READ
     resource(v): "org.parceldelivery.model.LogisticCompany"
@@ -48,7 +48,7 @@ rule readLogisticCompany {
 }
 
 rule readRetailer {
-  description: "Allow logistics company to read retailer asset"
+    description: "Allow logistics company to read retailer asset"
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: READ
     resource(v): "org.parceldelivery.model.Retailer"
@@ -102,7 +102,7 @@ rule customsReadLogisticCompany {
 }
 
 rule publicReadQuery {
-  description: "Allow anyone to check parcel asset given trackingID"
+    description: "Allow anyone to check parcel asset given trackingID"
     participant(m): "org.parceldelivery.model.*"
     operation: CREATE
     resource(v): "org.parceldelivery.model.queryByPublic"
@@ -111,11 +111,11 @@ rule publicReadQuery {
 }
 
 rule customReadQuery {
-  description: "Allow Custom to check parcel asset given trackingID"
+    description: "Allow Custom to check parcel asset given trackingID"
     participant(m): "org.parceldelivery.model.*"
     operation: CREATE
     resource(v): "org.parceldelivery.model.queryByCustom"
-  condition: (true)
+    condition: (true)
     action: ALLOW
 }
 
@@ -136,9 +136,9 @@ rule NetworkAdminSystem {
 }
 
 rule SystemACL {
-  description:  "System ACL to permit all access"
-  participant: "org.hyperledger.composer.system.Participant"
-  operation: ALL
-  resource: "org.hyperledger.composer.system.**"
-  action: ALLOW
+    description:  "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
 }
