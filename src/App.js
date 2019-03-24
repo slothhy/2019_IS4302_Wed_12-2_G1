@@ -1,57 +1,55 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar.js';
+import Login from './Login.js';
+import Register from './Register.js';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: "",
-      password: "",
-      logged_in: true
+      logged_in: false,
+      tab: "register"
     }
   }
 
-  async submitHandler (event) {
-    event.preventDefault()
-    try {
-
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  fieldChangeHandler = event => {
+  changeTab = (destination) => {
     this.setState({
-      [event.target.id]: event.target.value
+      tab: destination
     })
   }
 
   render() {
-    return (
-      <div className="page">
-        <div className="nav-bar">
-          <Navbar isUser={this.state.logged_in}/>
-        </div>
-        <form onSubmit={this.submitHandler.bind(this)} className="register-form">
-          <p>Email:</p>
-          <input type='text'
-            id='email'
-            onChange={this.fieldChangeHandler}
-            className='input-field' />
-
-          <p>Password:</p>
-          <input type='text'
-            id='password'
-            onChange={this.fieldChangeHandler}
-            className='input-field' />
-
-          <button type='submit' className="btn-primary btn-submit">
-            REGISTER
-          </button>
-        </form>
-      </div>
-    );
+    switch(this.state.tab) {
+      case "register":
+        return (
+          <div className="page">
+            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Register />
+          </div>
+        )
+      case "login":
+        return (
+          <div className="page">
+            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Login />
+          </div>
+        )
+      case "input": 
+        return (
+          <div className="page">
+            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <div>INPUT</div>
+          </div>
+        )
+      case "track": 
+        return (
+          <div className="page">
+            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <div>TRACK</div>
+          </div>
+        )
+    }
   }
 }
 

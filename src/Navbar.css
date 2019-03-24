@@ -1,11 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
-:root {
-  --primary-color: #86c5da;
-  --font-stack: 'Source Sans Pro', sans-serif;
+.nav-bar {
+  background-color: var(--primary-color);
+  max-width: 20vw;
+  width: 250px;
+  height: 100vh; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
-.nav {
+.nav-items {
   display: flex;
   flex-direction: column;
   min-height: 30vh;
@@ -13,7 +17,7 @@
   align-items: center;
 }
 
-.nav button {
+.nav-items button {
   cursor: pointer;
   background-color: var(--primary-color);
   width: 140px;
@@ -26,7 +30,7 @@
   padding-left: 30px;
 }
 
-.nav button:hover {
+.nav-items button:hover {
   font-weight: 600;
 }
 
