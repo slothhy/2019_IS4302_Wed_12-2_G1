@@ -4,11 +4,10 @@
 
 namespace org.parceldelivery.model
 
-participant Retailer identified by retailerID {
-  o String retailerID
+participant Retailer identified by email {
+  o String email
   o String name
   o Address address
-  o String email 
   o String contactNum
 }
 
@@ -16,19 +15,13 @@ participant Retailer identified by retailerID {
   o String ID
   o String name
   o Address address
-  o String email 
+  o String email
   o String contactNum
-  o Locality locality
 }
 
 participant Custom identified by customID {
   o String customID
   o String country
-}
-
-enum Locality {
-  o OVERSEAS
-  o LOCAL
 }
 
 enum Status {
@@ -41,18 +34,16 @@ enum Status {
 concept Address {
   o String house
   o String street
-  o String country  
+  o String country
   o String postalCode
 }
 
-concept CustomsParcel {
+concept CustomsView {
   o String trackingID
   o String itemDescription
   o String parcelWeight
   o Address recipientAddress
-  o Status status
-  o String additionalInfo optional
-  o String conditionOfParcel
+  o String invoice
   --> Retailer retailer
   --> LogisticCompany logisticcompany
 }
@@ -67,11 +58,10 @@ asset Parcel identified by trackingID {
   o String parcelWeight
   o Address recipientAddress
   o Status status
-  o String additionalInfo optional
-  o String conditionOfParcel
+  o String invoice
   --> Retailer retailer
-  --> LogisticCompany logisticcompany
-} 
+  --> LogisticCompany logisticCompany
+}
 
 transaction createParcel {
   o Parcel parcel
@@ -79,7 +69,7 @@ transaction createParcel {
 
 transaction updateParcel {
   --> Parcel parcel
-  --> LogisticCompany logisticcompany
+  --> LogisticCompany logisticCompany
   o String conditionOfParcel
 }
 
@@ -88,5 +78,5 @@ transaction queryByPublic {
 }
 
 transaction queryByCustom {
-  o String trackingID 
+  o String trackingID
 }
