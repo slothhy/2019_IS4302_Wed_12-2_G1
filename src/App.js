@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar.js';
 import Login from './Login.js';
 import Register from './Register.js';
+import Track from './Track.js';
 import './App.css';
 
 class App extends Component {
@@ -46,7 +47,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
-            <div>TRACK</div>
+            <Track />
           </div>
         )
     }
