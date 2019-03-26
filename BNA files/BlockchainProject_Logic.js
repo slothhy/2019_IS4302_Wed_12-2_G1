@@ -50,13 +50,13 @@ async function queryByCustom(queryByCustom) {
     
     let factory = getFactory();
     var customsParcel = factory.newConcept('org.parceldelivery.model', 'CustomsView');
-    customsParcel.trackingID = results.trackingID;
-    customsParcel.itemDescription = results.itemDescription;
-    customsParcel.parcelWeight = results.parcelWeight;
-    customsParcel.recipientAddress = results.recipientAddress;
-    customsParcel.invoice = results.invoice;
-    customsParcel.retailer = results.retailer;
-    customsParcel.logisticcompany = results.logisticcompany;
+    customsParcel.trackingID = results[0].trackingID;
+    customsParcel.itemDescription = results[0].itemDescription;
+    customsParcel.parcelWeight = results[0].parcelWeight;
+    customsParcel.recipientAddress = results[0].recipientAddress;
+    customsParcel.invoice = results[0].invoice;
+    customsParcel.retailer = results[0].retailer;
+    customsParcel.logisticcompany = results[0].logisticcompany;
     
     console.log(customsParcel);
     return customsParcel;
