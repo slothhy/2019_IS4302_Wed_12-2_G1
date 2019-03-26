@@ -25,6 +25,7 @@ participant Custom identified by customID {
 }
 
 enum Status {
+  o REGISTERED
   o PROCESSING
   o SHIPPED
   o IN_TRANSIT
@@ -57,7 +58,7 @@ asset Parcel identified by trackingID {
   o String itemDescription
   o String parcelWeight
   o Address recipientAddress
-  o Status status
+  o Status status default="REGISTERED"
   o String invoice
   --> Retailer retailer
   --> LogisticCompany logisticCompany
