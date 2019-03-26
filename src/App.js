@@ -3,13 +3,14 @@ import Navbar from './Navbar.js';
 import Login from './Login.js';
 import Register from './Register.js';
 import Track from './Track.js';
+import Input from './Input.js';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      logged_in: false,
+      logged_in: true,
       tab: "register"
     }
   }
@@ -40,7 +41,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
-            <div>INPUT</div>
+            <Input />
           </div>
         )
       case "track": 

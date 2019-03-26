@@ -5,8 +5,7 @@ class Track extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: "",
-      password: ""
+      tracking: ""
     }
   }
 
