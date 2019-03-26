@@ -27,8 +27,8 @@ async function createParcel(createParcel) {
  * @transaction
  */
 async function updateParcel(updateParcel) {
-    updateParcel.parcel.logisticcompany = updateParcel.logisticCompany;
-    updateParcel.parcel.conditionOfParcel = updateParcel.conditionOfParcel;
+    updateParcel.parcel.logisticCompany = updateParcel.logisticCompany;
+  	updateParcel.parcel.status = updateParcel.status;
     const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
     await assetRegistry.update(updateParcel.parcel);
 }
