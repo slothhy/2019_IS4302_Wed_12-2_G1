@@ -28,6 +28,28 @@ form p {
   padding-right: 5px;
 }
 
+.file-selected {
+  display: inline-flex;
+  align-items: center;
+  width: 500px;
+  height: 32px;
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-style: inset;
+  border-radius: 4px;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.login-error {
+  align-self: flex-start;
+  color: white;
+}
+
 .btn-primary {
   cursor: pointer;
   height: 44px;
@@ -47,4 +69,19 @@ form p {
 
 .btn-submit:hover {
   border-width: 2px;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  cursor: pointer;
+  height: 36px;
+  border-radius: 4px;
+  border-color: white;
+  background-color: #282c34;
+  color: var(--primary-color);
+  font-size: 12px;
+}
+
+input[type='file'] {
+  display: none;
 }

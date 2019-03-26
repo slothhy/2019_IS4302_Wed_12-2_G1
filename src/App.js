@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      logged_in: true,
+      logged_in: false,
       tab: "register"
     }
   }
@@ -18,6 +18,12 @@ class App extends Component {
   changeTab = (destination) => {
     this.setState({
       tab: destination
+    })
+  }
+
+  loginUser = () => {
+    this.setState({
+      logged_in: true
     })
   }
 
@@ -34,7 +40,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
-            <Login />
+            <Login login={this.loginUser} redirect={this.changeTab}/>
           </div>
         )
       case "input": 

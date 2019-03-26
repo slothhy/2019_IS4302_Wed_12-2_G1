@@ -11,7 +11,8 @@ class Input extends Component {
       description: "",
       weight: "",
       address: "",
-      invoice: "",
+      invoiceFile: null,
+      invoiceBase64: "",
       logistic: ""
     }
   }
@@ -30,6 +31,35 @@ class Input extends Component {
       [event.target.id]: event.target.value
     })
   }
+
+  base64Encode = file => {
+    try{
+      // read binary data
+      var reader = new FileReader();
+      // convert binary data to base64 encoded string
+      reader.onloadend = function() {
+        console.log('RESULT', reader.result)
+      }
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async uploadHandler (event) {
+    let invoiceFile = event.target.files[0]
+    await this.setState({ invoiceFile })
+
+    let convertedFile = this.base64Encode(this.state.invoiceFile)
+
+    this.setState({
+      invoiceBase64: convertedFile
+    })
+  }
+
+  getFileName = file => 
+    (file === null) ? 'No file chosen' : file.name
+
 
   render () {
     return (
@@ -54,10 +84,11 @@ class Input extends Component {
             className='input-field' />
 
           <p>Invoice:</p>
-          <input type='text'
-            id='invoice'
-            onChange={this.fieldChangeHandler}
-            className='input-field' />
+          <label htmlFor='invoiceFile' className='btn-secondary'>Choose File</label>
+          <span className='file-selected'>{this.getFileName(this.state.invoiceFile)}</span>
+          <input id='invoiceFile' 
+            type='file' 
+            onChange={this.uploadHandler.bind(this)} />
 
           <p>Logistic Company:</p>
           <input type='text'
