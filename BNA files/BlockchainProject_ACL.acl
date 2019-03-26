@@ -25,7 +25,7 @@ rule updateParcel {
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: UPDATE
     resource(v): "org.parceldelivery.model.Parcel"
-    condition: (v.logisticcompany.ID == m.getIdentifier())
+    condition: (v.logisticCompany.ID == m.getIdentifier())
     action: ALLOW
 }
 
@@ -70,7 +70,7 @@ rule logisticReadParcel {
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: READ
     resource(v): "org.parceldelivery.model.Parcel"
-    condition: (v.logisticcompany.getIdentifier() == m.getIdentifier())
+    condition: (v.logisticCompany.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
 
