@@ -9,7 +9,10 @@ class Register extends Component {
       email: "",
       password: "",
       name: "",
-      address: "",
+      house: "",
+      street: "",
+      country: "",
+      postal: "",
       contact: ""
     }
   }
@@ -51,9 +54,27 @@ class Register extends Component {
             onChange={this.fieldChangeHandler}
             className='input-field' />
 
-          <p>Address:</p>
+          <p>House:</p>
           <input type='text'
-            id='address'
+            id='house'
+            onChange={this.fieldChangeHandler}
+            className='input-field' />
+          
+          <p>Street:</p>
+          <input type='text'
+            id='street'
+            onChange={this.fieldChangeHandler}
+            className='input-field' />
+          
+          <p>Country:</p>
+          <input type='text'
+            id='country'
+            onChange={this.fieldChangeHandler}
+            className='input-field' />
+          
+          <p>Postal Code:</p>
+          <input type='text'
+            id='postal'
             onChange={this.fieldChangeHandler}
             className='input-field' />
 

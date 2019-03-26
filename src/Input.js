@@ -47,7 +47,7 @@ class Input extends Component {
             onChange={this.fieldChangeHandler}
             className='input-field' />
 
-          <p>Recepient Address:</p>
+          <p>Recipient Address:</p>
           <input type='text'
             id='address'
             onChange={this.fieldChangeHandler}
