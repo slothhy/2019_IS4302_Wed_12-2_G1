@@ -34,6 +34,11 @@
   font-weight: 600;
 }
 
+.nav-items p {
+  letter-spacing: 0.05em;
+
+}
+
 .btn-register {
   background-image: url('./static/bxs-user-plus.svg');
   background-repeat: no-repeat;

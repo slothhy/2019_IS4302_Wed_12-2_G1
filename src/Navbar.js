@@ -10,7 +10,7 @@ const hideInput = (isUser) => {
 const Navbar = (props) => (
   <div className="nav-bar">
     <div className="nav-items">
-    {console.log(props)}
+      <p hidden={hideInput(props.isUser)}><strong>Welcome</strong> {props.userID}</p>
       <button type="button" className="btn-register" onClick={() => props.nav("register")}>Register</button>
 
       {(props.isUser) ? (<button type="button" className="btn-logout" onClick={() => props.nav("logout")}>Logout</button>) : (<button type="button" className="btn-login" onClick={() => props.nav("login")}>Login</button>)}

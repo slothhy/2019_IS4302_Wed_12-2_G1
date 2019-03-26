@@ -10,6 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      userID: "",
       logged_in: false,
       tab: "register"
     }
@@ -21,9 +22,10 @@ class App extends Component {
     })
   }
 
-  loginUser = () => {
+  loginUser = (user) => {
     this.setState({
-      logged_in: true
+      logged_in: true,
+      userID: user
     })
   }
 
@@ -32,28 +34,28 @@ class App extends Component {
       case "register":
         return (
           <div className="page">
-            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
             <Register />
           </div>
         )
       case "login":
         return (
           <div className="page">
-            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
             <Login login={this.loginUser} redirect={this.changeTab}/>
           </div>
         )
       case "input": 
         return (
           <div className="page">
-            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
             <Input />
           </div>
         )
       case "track": 
         return (
           <div className="page">
-            <Navbar isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
             <Track />
           </div>
         )

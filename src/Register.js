@@ -20,7 +20,10 @@ class Register extends Component {
   async submitHandler (event) {
     event.preventDefault()
     try {
-
+      let user = {
+        email: this.state.email,
+        password: this.state.password
+      }
     } catch (err) {
       console.error(err)
     }
