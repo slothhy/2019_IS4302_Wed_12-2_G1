@@ -45,7 +45,7 @@ concept CustomsView {
   o Address recipientAddress
   o String invoice
   --> Retailer retailer
-  --> LogisticCompany logisticcompany
+  --> LogisticCompany logisticCompany
 }
 
 concept PublicParcel {

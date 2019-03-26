@@ -9,16 +9,15 @@
  */
 async function createParcel(createParcel) { 
    return getAssetRegistry('org.parceldelivery.model.Parcel').then(function(result) {
-        var factory = getFactory();
-        var newParcel = factory.newResource('org.parceldelivery.model', 'Parcel', createParcel.parcel.trackingID);
+      var factory = getFactory();
+      var newParcel = factory.newResource('org.parceldelivery.model', 'Parcel', createParcel.parcel.trackingID);
       newParcel.itemDescription = createParcel.parcel.itemDescription;
       newParcel.parcelWeight = createParcel.parcel.parcelWeight;
       newParcel.recipientAddress = createParcel.parcel.recipientAddress;
       newParcel.status = createParcel.parcel.status;
-      newParcel.additionalInfo = createParcel.parcel.additonalInfo;
       newParcel.conditionOfParcel = createParcel.parcel.conditionOfParcel;
       newParcel.retailer = createParcel.parcel.retailer;
-      newParcel.logisticcompany = createParcel.parcel.logisticcompany;
+      newParcel.logisticcompany = createParcel.parcel.logisticCompany;
       return result.add(newParcel);
   });
 }
@@ -29,7 +28,7 @@ async function createParcel(createParcel) {
  * @transaction
  */
 async function updateParcel(updateParcel) {
-    updateParcel.parcel.logisticcompany = updateParcel.logisticcompany;
+    updateParcel.parcel.logisticcompany = updateParcel.logisticCompany;
     updateParcel.parcel.conditionOfParcel = updateParcel.conditionOfParcel;
     const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
     await assetRegistry.update(updateParcel.parcel);
@@ -56,7 +55,7 @@ async function queryByCustom(queryByCustom) {
     customsParcel.recipientAddress = results[0].recipientAddress;
     customsParcel.invoice = results[0].invoice;
     customsParcel.retailer = results[0].retailer;
-    customsParcel.logisticcompany = results[0].logisticcompany;
+    customsParcel.logisticcompany = results[0].logisticCompany;
     
     console.log(customsParcel);
     return customsParcel;
