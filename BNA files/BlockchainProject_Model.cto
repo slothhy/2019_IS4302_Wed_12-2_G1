@@ -27,7 +27,7 @@ participant Custom identified by customID {
 enum Status {
   o PROCESSING
   o SHIPPED
-  o IN_DELIVERY
+  o IN_TRANSIT
   o DELIVERED
 }
 

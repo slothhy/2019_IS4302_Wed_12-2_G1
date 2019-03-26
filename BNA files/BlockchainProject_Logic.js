@@ -49,19 +49,15 @@ async function queryByCustom(queryByCustom) {
     }
     
     let factory = getFactory();
-    var customsParcel = factory.newConcept('org.parceldelivery.model', 'CustomsParcel');
-    for (let n = 0; n < results.length; n++) {
-        let parcel = results[n];
-        customsParcel.trackingID = parcel.trackingID;
-        customsParcel.itemDescription = parcel.itemDescription;
-        customsParcel.parcelWeight = parcel.parcelWeight;
-        customsParcel.recipientAddress = parcel.recipientAddress;
-        customsParcel.status = parcel.status;
-        customsParcel.additionalInfo = parcel.additionalInfo;
-        customsParcel.conditionOfParcel = parcel.conditionOfParcel;
-        customsParcel.retailer = parcel.retailer;
-        customsParcel.logisticcompany = parcel.logisticcompany;
-    }
+    var customsParcel = factory.newConcept('org.parceldelivery.model', 'CustomsView');
+    customsParcel.trackingID = results.trackingID;
+    customsParcel.itemDescription = results.itemDescription;
+    customsParcel.parcelWeight = results.parcelWeight;
+    customsParcel.recipientAddress = results.recipientAddress;
+    customsParcel.invoice = results.invoice;
+    customsParcel.retailer = results.retailer;
+    customsParcel.logisticcompany = results.logisticcompany;
+    
     console.log(customsParcel);
     return customsParcel;
 }
