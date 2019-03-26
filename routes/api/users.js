@@ -37,25 +37,22 @@ router.post('/login', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
   if(!user.email) {
-    return res.status(422).json({
-      errors: {
-        email: 'is required',
-      },
+    return res.status(401).json({
+      message: "Email is required"
     });
   }
 
   if(!user.password) {
-    return res.status(422).json({
-      errors: {
-        password: 'is required',
-      },
+    return res.status(401).json({
+      message: "Password is required"
     });
   }
 
   return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
     if(err) {
-      console.log("User authentication failed")
-      return next(err);
+      return res.status(401).json({
+        message: "Invalid user"
+      });
     }
 
     if(passportUser) {

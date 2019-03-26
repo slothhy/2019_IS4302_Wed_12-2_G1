@@ -3,6 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const cors = require('cors');
 const session = require('express-session');
 const mongoose = require('mongoose');
 
@@ -27,6 +28,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'blockchain-secret', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(cors({
+  'origin': "http://localhost:3000",
+  'optionsSuccessStatus': 200
+}))
 
 //Configure mongoose
 mongoose.connect(`mongodb+srv://christabel:${DB_PASSWORD}@blockchain-ismdr.mongodb.net/test?retryWrites=true`);
