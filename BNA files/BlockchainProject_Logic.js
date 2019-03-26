@@ -7,17 +7,16 @@
  * @param {org.parceldelivery.model.createParcel} createParcel - the create parcel transaction
  * @transaction
  */
-async function createParcel(createParcel) { 
+async function createParcel(createParcel) {
    return getAssetRegistry('org.parceldelivery.model.Parcel').then(function(result) {
       var factory = getFactory();
       var newParcel = factory.newResource('org.parceldelivery.model', 'Parcel', createParcel.parcel.trackingID);
       newParcel.itemDescription = createParcel.parcel.itemDescription;
       newParcel.parcelWeight = createParcel.parcel.parcelWeight;
       newParcel.recipientAddress = createParcel.parcel.recipientAddress;
-      newParcel.status = createParcel.parcel.status;
-      newParcel.conditionOfParcel = createParcel.parcel.conditionOfParcel;
+      newParcel.invoice = createParcel.parcel.invoice;
       newParcel.retailer = createParcel.parcel.retailer;
-      newParcel.logisticcompany = createParcel.parcel.logisticCompany;
+      newParcel.logisticCompany = createParcel.parcel.logisticCompany;
       return result.add(newParcel);
   });
 }
