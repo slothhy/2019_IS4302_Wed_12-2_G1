@@ -28,7 +28,6 @@ class Login extends Component {
 
       this.props.login(this.state.email)
       this.props.redirect("input")
-
     } catch (err) {
       this.setState({ infoMessage: err.response.data.message })
       console.error(err)
@@ -45,7 +44,7 @@ class Login extends Component {
     return (
       <React.Fragment>
         <form onSubmit={this.submitHandler.bind(this)} className="user-form">
-          <span className="login-error">{this.state.infoMessage}</span>
+          <span className="auth-error">{this.state.infoMessage}</span>
           
           <p>Email:</p>
           <input type='text'

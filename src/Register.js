@@ -2,6 +2,9 @@
 import React, {Component} from 'react';
 import './Form.css'
 
+const backend_url = "http://localhost:8000";
+const axios = require('axios');
+
 class Register extends Component {
   constructor(props) {
     super(props)
@@ -13,7 +16,8 @@ class Register extends Component {
       street: "",
       country: "",
       postal: "",
-      contact: ""
+      contact: "",
+      infoMessage: ""
     }
   }
 
@@ -24,7 +28,33 @@ class Register extends Component {
         email: this.state.email,
         password: this.state.password
       }
+
+      // let blockchain_user = {
+      //   "$class": "org.parceldelivery.model.Retailer",
+      //   "email": this.state.email,
+      //   "name": this.state.name,
+      //   "address": {
+      //     "$class": "org.parceldelivery.model.Address",
+      //     "house": this.state.house,
+      //     "street": this.state.street,
+      //     "country": this.state.country,
+      //     "postalCode": this.state.postal
+      //   },
+      //   "contactNum": this.state.contact
+      // }
+
+      let resp = await axios.post(`${backend_url}/users`, { 
+        user 
+      })
+
+      // let blockchain_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.Retailer/`, {
+      //   blockchain_user
+      // })
+
+      this.props.login(this.state.email)
+      this.props.redirect("input")
     } catch (err) {
+      this.setState({ infoMessage: err.response.data.message })
       console.error(err)
     }
   }
@@ -39,6 +69,7 @@ class Register extends Component {
     return (
       <React.Fragment>
         <form onSubmit={this.submitHandler.bind(this)} className="user-form">
+          <span className="auth-error">{this.state.infoMessage}</span>          
           <p>Email:</p>
           <input type='text'
             id='email'

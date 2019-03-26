@@ -35,7 +35,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
-            <Register />
+            <Register login={this.loginUser} redirect={this.changeTab}/>
           </div>
         )
       case "login":

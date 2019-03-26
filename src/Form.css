@@ -45,7 +45,7 @@ form p {
   overflow-x: auto;
 }
 
-.login-error {
+.auth-error {
   align-self: flex-start;
   color: white;
 }
