@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+:root {
+  --primary-color: #86c5da;
+  --font-stack: 'Source Sans Pro', sans-serif;
+}
+
+:focus {
+  outline: none;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  background-color: #282c34;
+  font-family: var(--font-stack);
+  min-height: 100vh;
+}

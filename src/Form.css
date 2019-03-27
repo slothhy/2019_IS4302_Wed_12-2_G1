@@ -1,0 +1,87 @@
+.user-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  min-height: 60vh;
+  width: 500px;
+  max-width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+}
+
+form p {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.input-field {
+  height: 32px;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.file-selected {
+  display: inline-flex;
+  align-items: center;
+  width: 500px;
+  height: 32px;
+  box-sizing: border-box;
+  border: 2px solid white;
+  border-style: inset;
+  border-radius: 4px;
+  background-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.auth-error {
+  align-self: flex-start;
+  color: white;
+}
+
+.btn-primary {
+  cursor: pointer;
+  height: 44px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-color: white;
+  background-color: #282c34;
+  color: var(--primary-color);
+  font-size: 14px;
+}
+
+.btn-submit {
+  float: right;
+  margin-top: 50px;
+}
+
+.btn-submit:hover {
+  border-width: 2px;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  cursor: pointer;
+  height: 36px;
+  border-radius: 4px;
+  border-color: white;
+  background-color: #282c34;
+  color: var(--primary-color);
+  font-size: 12px;
+}
+
+input[type='file'] {
+  display: none;
+}
