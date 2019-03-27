@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import './Form.css'
 
 const backend_url = "http://localhost:8000";
+const hyperledger_url = "http://68.183.184.3:3000";
 const axios = require('axios');
 
 class Register extends Component {
@@ -29,32 +30,32 @@ class Register extends Component {
         password: this.state.password
       }
 
-      // let blockchain_user = {
-      //   "$class": "org.parceldelivery.model.Retailer",
-      //   "email": this.state.email,
-      //   "name": this.state.name,
-      //   "address": {
-      //     "$class": "org.parceldelivery.model.Address",
-      //     "house": this.state.house,
-      //     "street": this.state.street,
-      //     "country": this.state.country,
-      //     "postalCode": this.state.postal
-      //   },
-      //   "contactNum": this.state.contact
-      // }
-
       let resp = await axios.post(`${backend_url}/users`, { 
         user 
       })
 
-      // let blockchain_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.Retailer/`, {
-      //   blockchain_user
-      // })
+      await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.Retailer/`, {
+        "$class": "org.parceldelivery.model.Retailer",
+        "email": this.state.email,
+        "name": this.state.name,
+        "address": {
+          "$class": "org.parceldelivery.model.Address",
+          "house": this.state.house,
+          "street": this.state.street,
+          "country": this.state.country,
+          "postalCode": this.state.postal
+        },
+        "contactNum": this.state.contact
+      })
 
       this.props.login(this.state.email)
       this.props.redirect("input")
     } catch (err) {
-      this.setState({ infoMessage: err.response.data.message })
+      if (err.response) {
+        this.setState({ infoMessage: err.response.data.message })
+      } else {
+        this.setState({ infoMessage: "Internal server error" })
+      }
       console.error(err)
     }
   }

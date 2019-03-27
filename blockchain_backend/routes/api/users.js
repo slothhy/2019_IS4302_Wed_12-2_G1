@@ -10,17 +10,13 @@ router.post('/', auth.optional, (req, res, next) => {
 
   if(!user.email) {
     return res.status(422).json({
-      errors: {
-        email: 'is required',
-      },
+      message: "Email is required"
     });
   }
 
   if(!user.password) {
     return res.status(422).json({
-      errors: {
-        password: 'is required',
-      },
+      message: "Password is required"
     });
   }
 
