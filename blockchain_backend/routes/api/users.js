@@ -25,7 +25,14 @@ router.post('/', auth.optional, (req, res, next) => {
   finalUser.setPassword(user.password);
 
   return finalUser.save()
-    .then(() => res.json({ user: finalUser.toAuthJSON() }));
+    .then(() => {
+      res.json({ user: finalUser.toAuthJSON() })
+    }, (err) => {
+      if (err.code === 11000)
+        res.status(401).json({
+          message: "Unable to create user"
+        })
+    });
 });
 
 //POST login route (optional, everyone has access)
