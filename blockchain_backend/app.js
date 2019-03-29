@@ -35,7 +35,7 @@ app.use(cors({
 
 //Configure mongoose
 // mongoose.connect(`mongodb+srv://christabel:${DB_PASSWORD}@blockchain-ismdr.mongodb.net/test?retryWrites=true`);
-mongoose.connect('mongodb://parceladmin:${DB_PASSWORD}@68.183.184.3:27017/parceltracking', {useNewUrlParser: true});
+mongoose.connect(`mongodb://parceladmin:${DB_PASSWORD}@68.183.184.3:27017/parceltracking`, {useNewUrlParser: true});
 mongoose.set('debug', true);
 
 app.use('/', indexRouter);
