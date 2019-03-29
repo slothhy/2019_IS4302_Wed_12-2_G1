@@ -15,7 +15,7 @@ rule performParcelCreation {
     description: "Allow retailer to run parcel creation tx"
     participant(m): "org.parceldelivery.model.Retailer"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.createParcel"
+    resource(v): "org.parceldelivery.model.CreateParcel"
     condition: (true)
     action: ALLOW
 }
@@ -33,7 +33,7 @@ rule performParcelUpdate {
     description: "Allow logistics company to run parcel update tx"
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.updateParcel"
+    resource(v): "org.parceldelivery.model.UpdateParcel"
     condition: (true)
     action: ALLOW
 }
@@ -101,20 +101,11 @@ rule customsReadLogisticCompany {
     action: ALLOW
 }
 
-rule publicReadQuery {
-    description: "Allow anyone to check parcel asset given trackingID"
-    participant(m): "org.parceldelivery.model.*"
-    operation: CREATE
-    resource(v): "org.parceldelivery.model.queryByPublic"
-    condition: (true)
-    action: ALLOW
-}
-
 rule customReadQuery {
     description: "Allow Custom to check parcel asset given trackingID"
     participant(m): "org.parceldelivery.model.*"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.queryByCustom"
+    resource(v): "org.parceldelivery.model.QueryByCustom"
     condition: (true)
     action: ALLOW
 }

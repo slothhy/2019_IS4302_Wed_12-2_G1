@@ -11,7 +11,7 @@ participant Retailer identified by email {
   o String contactNum
 }
 
- participant LogisticCompany identified by ID {
+participant LogisticCompany identified by ID {
   o String ID
   o String name
   o Address address
@@ -22,14 +22,6 @@ participant Retailer identified by email {
 participant Custom identified by customID {
   o String customID
   o String country
-}
-
-enum Status {
-  o REGISTERED
-  o PROCESSING
-  o SHIPPED
-  o IN_TRANSIT
-  o DELIVERED
 }
 
 concept Address {
@@ -49,8 +41,9 @@ concept CustomsView {
   --> LogisticCompany logisticCompany
 }
 
-concept PublicParcel {
-  o Status status
+concept PublicView {
+  o String status
+  o String location
 }
 
 asset Parcel identified by trackingID {
@@ -58,27 +51,29 @@ asset Parcel identified by trackingID {
   o String itemDescription
   o String parcelWeight
   o Address recipientAddress
-  o Status status default="REGISTERED"
+  o String status default="REGISTERED"
+  o String location
   o String invoice
   --> Retailer retailer
   --> LogisticCompany logisticCompany
 }
 
-transaction createParcel {
+transaction CreateParcel {
   o Parcel parcel
 }
 
-transaction updateParcel {
+transaction UpdateParcel {
   --> Parcel parcel
   --> LogisticCompany logisticCompany
   o String conditionOfParcel
-  o Status status
+  o String status
+  o String location
 }
 
-transaction queryByPublic {
+transaction QueryByCustom {
   o String trackingID
 }
 
-transaction queryByCustom {
-  o String trackingID
+event CustomQueryEvent {
+  o CustomsView customsview
 }
