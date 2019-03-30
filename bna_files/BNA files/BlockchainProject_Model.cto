@@ -63,11 +63,11 @@ transaction QueryByCustom {
 }
 
 event CustomQueryEvent {
-  o CustomsView customsview
+  o CustomsView customsView
 }
-  
+
 event UpdateParcelEvent {
-  o LogisticCompany logisticCompany
+  --> LogisticCompany logisticCompany
   o String status
   o String location
   o String conditionOfParcel
