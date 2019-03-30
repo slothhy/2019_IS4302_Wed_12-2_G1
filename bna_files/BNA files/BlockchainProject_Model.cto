@@ -65,7 +65,7 @@ transaction QueryByCustom {
 event CustomQueryEvent {
   o CustomsView customsview
 }
-
+  
 event UpdateParcelEvent {
   o LogisticCompany logisticCompany
   o String status
