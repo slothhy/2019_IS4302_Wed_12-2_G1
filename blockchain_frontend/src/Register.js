@@ -27,29 +27,36 @@ class Register extends Component {
     try {
       let user = {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        name: this.state.name,
+        house: this.state.house,
+        street: this.state.street,
+        country: this.state.country,
+        postal: this.state.postal,
+        contact: this.state.contact,
+        role: "retailer"
       }
 
       let resp = await axios.post(`${backend_url}/users`, { 
         user 
       })
 
-      await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.Retailer/`, {
-        "$class": "org.parceldelivery.model.Retailer",
-        "email": this.state.email,
-        "name": this.state.name,
-        "address": {
-          "$class": "org.parceldelivery.model.Address",
-          "house": this.state.house,
-          "street": this.state.street,
-          "country": this.state.country,
-          "postalCode": this.state.postal
-        },
-        "contactNum": this.state.contact
-      })
+      // retailer don't require blockchain
+      // await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.Retailer/`, {
+      //   "$class": "org.parceldelivery.model.Retailer",
+      //   "email": this.state.email,
+      //   "name": this.state.name,
+      //   "address": {
+      //     "$class": "org.parceldelivery.model.Address",
+      //     "house": this.state.house,
+      //     "street": this.state.street,
+      //     "country": this.state.country,
+      //     "postalCode": this.state.postal
+      //   },
+      //   "contactNum": this.state.contact
+      // })
 
-      this.props.login(this.state.email)
-      this.props.redirect("input")
+      this.props.login(this.state.email, resp.data.role)
     } catch (err) {
       if (err.response) {
         this.setState({ infoMessage: err.response.data.message })

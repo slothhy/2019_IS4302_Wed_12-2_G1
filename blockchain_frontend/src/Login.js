@@ -26,8 +26,7 @@ class Login extends Component {
         user 
       })
 
-      this.props.login(this.state.email)
-      this.props.redirect("input")
+      this.props.login(this.state.email, resp.data.role)
     } catch (err) {
       this.setState({ infoMessage: err.response.data.message })
       console.error(err)

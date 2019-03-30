@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       userID: "",
       logged_in: false,
+      role: "",
       tab: "register"
     }
   }
@@ -22,10 +23,21 @@ class App extends Component {
     })
   }
 
-  loginUser = (user) => {
+  loginUser = (user, role) => {
     this.setState({
       logged_in: true,
-      userID: user
+      role: role,
+      tab: "",
+      userID: user,
+    })
+  }
+
+  logoutUser = () => {
+    this.setState({
+      logged_in: false,
+      authtoken: "",
+      tab: "",
+      userID: ""
     })
   }
 
@@ -34,29 +46,48 @@ class App extends Component {
       case "register":
         return (
           <div className="page">
-            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
-            <Register login={this.loginUser} redirect={this.changeTab}/>
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+            <Register login={this.loginUser} />
           </div>
         )
       case "login":
         return (
           <div className="page">
-            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
-            <Login login={this.loginUser} redirect={this.changeTab}/>
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+            <Login login={this.loginUser} />
           </div>
         )
       case "input": 
         return (
           <div className="page">
-            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
             <Input />
+          </div>
+        )
+      case "update":
+        return (
+          <div className="page">
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+          </div>
+        )
+      case "inspect":
+        return (
+          <div className="page">
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
           </div>
         )
       case "track": 
         return (
           <div className="page">
-            <Navbar userID={this.state.userID} isUser={this.state.logged_in} nav={this.changeTab}/>
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
             <Track />
+          </div>
+        )
+      default:
+        return (
+          <div className="page">
+            <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+            <div className="welcome-message">Welcome to Parcel Tracking</div>
           </div>
         )
     }
