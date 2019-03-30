@@ -30,24 +30,20 @@ async function CreateParcel(CreateParcel) {
 async function UpdateParcel(UpdateParcel) {
   	UpdateParcel.parcel.status = UpdateParcel.status;
   	UpdateParcel.parcel.location = UpdateParcel.location;
-  
+
   	if (UpdateParcel.hasChangedLC == true){
    		UpdateParcel.parcel.logisticCompany = UpdateParcel.logisticCompany;
    	}
-  
+
   	const event = getFactory().newEvent('org.parceldelivery.model', 'UpdateParcelEvent');
-   	event.logisticCompany = UpdateParcel.logisticCompany; 
+   	event.logisticCompany = UpdateParcel.logisticCompany;
     event.status = UpdateParcel.status;
     event.location = UpdateParcel.location;
     event.conditionOfParcel = UpdateParcel.conditionOfParcel;
    	emit(event);
-  
+
     const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
     await assetRegistry.update(UpdateParcel.parcel);
-  
-  	//const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
-  	//return assetRegistry.get(UpdateParcel.trackingID);
-  	
 }
 
 /**
@@ -73,8 +69,8 @@ async function QueryByCustom(QueryByCustom) {
     customsParcel.logisticCompany = results[0].logisticCompany;
 
    	const event = getFactory().newEvent('org.parceldelivery.model', 'CustomQueryEvent');
-   	event.customsview = customsParcel; 
+   	event.customsView = customsParcel;
    	emit(event);
-    
+
     return customsParcel;
 }
