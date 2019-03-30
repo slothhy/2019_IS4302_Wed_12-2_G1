@@ -16,8 +16,15 @@ async function CreateParcel(CreateParcel) {
       newParcel.recipientAddress = CreateParcel.parcel.recipientAddress;
       newParcel.invoice = CreateParcel.parcel.invoice;
       newParcel.location = CreateParcel.parcel.location;
-	  newParcel.returnInformation = CreateParcel.parcel.returnInformation;
+	    newParcel.returnInformation = CreateParcel.parcel.returnInformation;
       newParcel.logisticCompany = CreateParcel.parcel.logisticCompany;
+
+      const event = getFactory().newEvent('org.parceldelivery.model', 'CreateParcelEvent');
+      event.logisticCompany = CreateParcel.parcel.logisticCompany;
+      event.status = CreateParcel.parcel.status;
+      event.location = CreateParcel.parcel.location;
+      emit(event);
+
       return result.add(newParcel);
   });
 }
