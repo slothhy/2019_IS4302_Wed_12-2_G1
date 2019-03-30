@@ -7,7 +7,7 @@
  * @param {org.parceldelivery.model.CreateParcel} CreateParcel - the create parcel transaction
  * @transaction
  */
-async function createParcel(createParcel) {
+async function CreateParcel(CreateParcel) {
    return getAssetRegistry('org.parceldelivery.model.Parcel').then(function(result) {
       var factory = getFactory();
       var newParcel = factory.newResource('org.parceldelivery.model', 'Parcel', createParcel.parcel.trackingID);
@@ -24,24 +24,46 @@ async function createParcel(createParcel) {
 
 /**
  * Update an existing parcel
- * @param {org.parceldelivery.model.UpdateParcel} updateParcel - the update parcel transaction
+ * @param {org.parceldelivery.model.UpdateParcel} UpdateParcel - the update parcel transaction
  * @transaction
  */
-async function updateParcel(updateParcel) {
-    updateParcel.parcel.logisticCompany = updateParcel.logisticCompany;
-  	updateParcel.parcel.status = updateParcel.status;
-  	updateParcel.parcel.location = updateParcel.location;
-    const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
-    await assetRegistry.update(updateParcel.parcel);
+async function UpdateParcel(UpdateParcel) {
+	return getAssetRegistry('org.parceldelivery.model.Parcel')
+      .then(function (assetRegistry) {
+    	return assetRegistry.get(UpdateParcel.parcel.trackingID);
+  	})
+      .then(function (oldParcel) {
+        UpdateParcel.parcel.status = UpdateParcel.status;
+        UpdateParcel.parcel.location = UpdateParcel.location;
+      	
+  		if (UpdateParcel.hasChangedLC == true){
+   			UpdateParcel.parcel.logisticCompany = UpdateParcel.logisticCompany;
+   		}
+      
+      	const event = getFactory().newEvent('org.parceldelivery.model', 'UpdateParcelEvent');
+   		event.logisticCompany = UpdateParcel.logisticCompany; 
+      	event.status = UpdateParcel.status;
+        event.location = UpdateParcel.location;
+        event.conditionOfParcel = UpdateParcel.conditionOfParcel;
+   		emit(event);
+    	
+        return getAssetRegistry('org.parceldelivery.model.Parcel').then(function (assetRegistry2) {
+            assetRegistry2.update(UpdateParcel.parcel);
+        });
+    });
+  
+  	//const assetRegistry = await getAssetRegistry('org.parceldelivery.model.Parcel');
+  	//return assetRegistry.get(UpdateParcel.trackingID);
+  	
 }
 
 /**
  * Answers a query made by customs
- * @param {org.parceldelivery.model.QueryByCustom} queryByCustom - the query by custom transaction
- * @returns {org.parceldelivery.model.CustomsParcel} CustomsParcel
+ * @param {org.parceldelivery.model.QueryByCustom} QueryByCustom - the query by custom transaction
+  * @returns {org.parceldelivery.model.CustomsParcel} CustomsParcel
  * @transaction
  */
-async function queryByCustom(queryByCustom) {
+async function QueryByCustom(QueryByCustom) {
     let q = buildQuery('SELECT org.parceldelivery.model.Parcel WHERE (trackingID == _$desiredTrackingID)');
     let results = await query(q, { desiredTrackingID: queryByCustom.trackingID });
     if (!results) {
@@ -56,11 +78,12 @@ async function queryByCustom(queryByCustom) {
     customsParcel.recipientAddress = results[0].recipientAddress;
     customsParcel.invoice = results[0].invoice;
     customsParcel.retailer = results[0].retailer;
-    customsParcel.logisticcompany = results[0].logisticCompany;
+    customsParcel.logisticCompany = results[0].logisticCompany;
 
-    const event = getFactory().newEvent('org.parceldelivery.model', 'CustomQueryEvent');
-    event.customsView = customsParcel;
-    emit(event);
-
-  	return customsParcel;
+   	const event = getFactory().newEvent('org.parceldelivery.model', 'customQueryEvent');
+   	event.customsview = customsParcel; 
+   	emit(event);
+    
+  	console.log(customsParcel);
+    return customsParcel;
 }

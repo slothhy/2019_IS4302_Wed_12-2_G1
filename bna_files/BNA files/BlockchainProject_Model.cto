@@ -41,11 +41,6 @@ concept CustomsView {
   --> LogisticCompany logisticCompany
 }
 
-concept PublicView {
-  o String status
-  o String location
-}
-
 asset Parcel identified by trackingID {
   o String trackingID
   o String itemDescription
@@ -66,6 +61,7 @@ transaction UpdateParcel {
   --> Parcel parcel
   --> LogisticCompany logisticCompany
   o String conditionOfParcel
+  o Boolean hasChangedLC default=false
   o String status
   o String location
 }
@@ -76,4 +72,11 @@ transaction QueryByCustom {
 
 event CustomQueryEvent {
   o CustomsView customsview
+}
+  
+event UpdateParcelEvent {
+  o LogisticCompany logisticCompany
+  o String status
+  o String location
+  o String conditionOfParcel
 }
