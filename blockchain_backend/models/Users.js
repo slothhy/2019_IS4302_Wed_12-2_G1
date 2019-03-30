@@ -7,7 +7,14 @@ const { Schema } = mongoose;
 const UsersSchema = new Schema({
   email: String,
   hash: String,
-  salt: String
+  salt: String,
+  name: String,
+  house: String,
+  street: String,
+  country: String,
+  postal: String,
+  contact: String,
+  typeOfUser: String
 });
 
 UsersSchema.methods.setPassword = function(password) {
