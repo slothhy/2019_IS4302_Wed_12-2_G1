@@ -26,7 +26,10 @@ router.post('/', auth.optional, (req, res, next) => {
 
   return finalUser.save()
     .then(() => {
-      res.json({ user: finalUser.toAuthJSON() })
+      res.status(200).json({ 
+        user: finalUser.toAuthJSON(),
+        role: user.role
+      })
     }, (err) => {
       if (err.code === 11000)
         res.status(401).json({
@@ -62,11 +65,40 @@ router.post('/login', auth.optional, (req, res, next) => {
       const user = passportUser;
       user.token = passportUser.generateJWT();
 
-      return res.json({ user: user.toAuthJSON() });
+      return res.status(200).json({ 
+        user: user.toAuthJSON(),
+        role: user.role,
+      });
     }
 
     return status(400).info;
   })(req, res, next);
 });
+
+router.get('/getAddress', (req, res, next) => {
+  const { body: { userID }} = req;
+
+  Users.findOne({ userID })
+  .then((user) => {
+    if(!user) {
+      return res.status(401).json({
+        message: "Invalid retailer"
+      });
+    }
+
+    return res.status(200).json({
+      userAddress: {
+        house: user.house,
+        street: user.street,
+        country: user.country,
+        postal: user.postal
+      } 
+    })
+  }, (err) => {
+    return res.status(500).json({
+      message: "Internal server error"
+    })
+  });
+})
 
 module.exports = router;

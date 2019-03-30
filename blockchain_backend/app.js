@@ -12,9 +12,11 @@ const { DB_PASSWORD } = process.env;
 
 //Models & routes
 require('./models/Users');
+require('./models/Parcels');
 require('./config/passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/users');
+var parcelRouter = require('./routes/api/parcels');
 
 var app = express();
 
@@ -40,6 +42,7 @@ mongoose.set('debug', true);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/parcels', parcelRouter);
 
 // app.use((err, req, res) => {
 //   res.status(err.status || 500);

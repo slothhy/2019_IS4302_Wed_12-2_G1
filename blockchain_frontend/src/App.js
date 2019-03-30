@@ -61,7 +61,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
-            <Input />
+            <Input userID={this.state.userID} />
           </div>
         )
       case "update":

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import './Form.css'
 
 const backend_url = "http://localhost:8000";
-const hyperledger_url = "http://68.183.184.3:9000";
 const axios = require('axios');
 
 class Register extends Component {
@@ -58,11 +57,7 @@ class Register extends Component {
 
       this.props.login(this.state.email, resp.data.role)
     } catch (err) {
-      if (err.response) {
-        this.setState({ infoMessage: err.response.data.message })
-      } else {
-        this.setState({ infoMessage: "Internal server error" })
-      }
+      this.setState({ infoMessage: err.response.data.message })
       console.error(err)
     }
   }
