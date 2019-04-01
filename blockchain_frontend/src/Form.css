@@ -11,6 +11,15 @@
   padding-top: 100px;
 }
 
+.table-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-left: 15%;
+  margin-right: auto;
+}
+
 form p {
   color: var(--primary-color);
   font-weight: 600;
@@ -111,4 +120,13 @@ input[type='file'] {
 
 .display-none {
   display: none;
+}
+
+table, th, td {
+  border: 1px solid;
+  border-color: var(--primary-color)
+}
+
+td, th {
+  color: white;
 }

@@ -4,6 +4,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import Track from './Track.js';
 import Input from './Input.js';
+import Update from './Update.js';
 import './App.css';
 
 class App extends Component {
@@ -26,7 +27,8 @@ class App extends Component {
   loginUser = (user, role) => {
     this.setState({
       logged_in: true,
-      role: role,
+      //role: role,
+      role: "logistics",
       tab: "",
       userID: user,
     })
@@ -68,6 +70,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+            <Update userID={this.state.userID} />
           </div>
         )
       case "inspect":
