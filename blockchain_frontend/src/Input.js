@@ -70,6 +70,7 @@ class Input extends Component {
       })
 
       await this.setState({ trackingID: trackingID })
+      
       this.showModal()
 
     } catch (err) {

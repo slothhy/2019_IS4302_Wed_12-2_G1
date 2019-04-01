@@ -20,4 +20,25 @@ router.post('/input', (req, res, next) => {
     });
 })
 
+router.get('/getParcelTx', (req, res, next) => {
+  const { body: { parcelID }} = req;
+
+  Parcels.findOne({ parcelID })
+  .then((parcel) => {
+    if(!parcel) {
+      return res.status(401).json({
+        message: "No such parcel"
+      });
+    }
+
+    return res.status(200).json({
+      txHistory: parcel.txHistory
+    })
+  }, (err) => {
+    return res.status(500).json({
+      message: "Internal server error"
+    })
+  });
+})
+
 module.exports = router;
