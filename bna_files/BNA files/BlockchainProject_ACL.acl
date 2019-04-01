@@ -3,8 +3,8 @@
  */
 
 rule createParcel {
-    description: "Allow retailer to create parcel asset"
-    participant(m): "org.parceldelivery.model.Retailer"
+    description: "Allow logistics company to create parcel asset"
+    participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
     resource(v): "org.parceldelivery.model.Parcel"
     condition: (true)
@@ -12,10 +12,10 @@ rule createParcel {
 }
 
 rule performParcelCreation {
-    description: "Allow retailer to run parcel creation tx"
-    participant(m): "org.parceldelivery.model.Retailer"
+    description: "Allow logistics company to run parcel creation tx"
+    participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.createParcel"
+    resource(v): "org.parceldelivery.model.CreateParcel"
     condition: (true)
     action: ALLOW
 }
@@ -33,35 +33,8 @@ rule performParcelUpdate {
     description: "Allow logistics company to run parcel update tx"
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.updateParcel"
+    resource(v): "org.parceldelivery.model.UpdateParcel"
     condition: (true)
-    action: ALLOW
-}
-
-rule readLogisticCompany {
-    description: "Allow retailer to read logistic company asset"
-    participant(m): "org.parceldelivery.model.Retailer"
-    operation: READ
-    resource(v): "org.parceldelivery.model.LogisticCompany"
-    condition: (true)
-    action: ALLOW
-}
-
-rule readRetailer {
-    description: "Allow logistics company to read retailer asset"
-    participant(m): "org.parceldelivery.model.LogisticCompany"
-    operation: READ
-    resource(v): "org.parceldelivery.model.Retailer"
-    condition: (true)
-    action: ALLOW
-}
-
-rule retailerReadParcel {
-    description: "Allow retailer to read parcel asset"
-    participant(m): "org.parceldelivery.model.Retailer"
-    operation: READ
-    resource(v): "org.parceldelivery.model.Parcel"
-    condition: (v.retailer.getIdentifier() == m.getIdentifier())
     action: ALLOW
 }
 
@@ -83,15 +56,6 @@ rule customsReadParcel {
     action: ALLOW
 }
 
-rule customsReadRetailer {
-    description: "Allow customs to read retailer"
-    participant(m): "org.parceldelivery.model.Custom"
-    operation: READ
-    resource(v): "org.parceldelivery.model.Retailer"
-    condition: (true)
-    action: ALLOW
-}
-
 rule customsReadLogisticCompany {
     description: "Allow customs to read logistic company"
     participant(m): "org.parceldelivery.model.Custom"
@@ -101,20 +65,11 @@ rule customsReadLogisticCompany {
     action: ALLOW
 }
 
-rule publicReadQuery {
-    description: "Allow anyone to check parcel asset given trackingID"
-    participant(m): "org.parceldelivery.model.*"
-    operation: CREATE
-    resource(v): "org.parceldelivery.model.queryByPublic"
-    condition: (true)
-    action: ALLOW
-}
-
 rule customReadQuery {
-    description: "Allow Custom to check parcel asset given trackingID"
+    description: "Allow customs to check parcel asset given trackingID"
     participant(m): "org.parceldelivery.model.*"
     operation: CREATE
-    resource(v): "org.parceldelivery.model.queryByCustom"
+    resource(v): "org.parceldelivery.model.QueryByCustom"
     condition: (true)
     action: ALLOW
 }
