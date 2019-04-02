@@ -28,7 +28,7 @@ class App extends Component {
     this.setState({
       logged_in: true,
       //role: role,
-      role: "logistics",
+      role: "",
       tab: "",
       userID: user,
     })
