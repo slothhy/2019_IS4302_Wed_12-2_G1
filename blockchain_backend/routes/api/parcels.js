@@ -21,9 +21,8 @@ router.post('/input', (req, res, next) => {
 })
 
 router.get('/getParcelTx', (req, res, next) => {
-  const { body: { parcelID }} = req;
 
-  Parcels.findOne({ parcelID })
+  Parcels.findOne({ trackingID : req.query.parcelID })
   .then((parcel) => {
     if(!parcel) {
       return res.status(401).json({

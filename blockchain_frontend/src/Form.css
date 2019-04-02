@@ -11,15 +11,6 @@
   padding-top: 100px;
 }
 
-.table-form {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
-  margin-left: 15%;
-  margin-right: auto;
-}
-
 form p {
   color: var(--primary-color);
   font-weight: 600;
@@ -122,7 +113,7 @@ input[type='file'] {
   display: none;
 }
 
-.update-page {
+.page-container {
   width: 80vw;
   margin-left: 300px;
 }
@@ -158,4 +149,44 @@ td, th {
 
 .transfer-dropdown {
   width: 500px;
+}
+
+.tracking-form {
+  display: inline-flex;
+  position: absolute;
+  top: 10px;
+  width: 600px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.tracking-form p {
+  width: 200px;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 80px;
+}
+
+.data-card {
+  border-radius: 5px;
+  background-color: white;
+  box-sizing: border-box;
+  margin: 1rem .25em;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  box-shadow: 0 4px 8px 0 var(--primary-color);
+}
+
+.btn-submit-track {
+  margin-left: 20px;
+}
+
+.btn-submit-track:hover {
+  border-width: 2px;
 }

@@ -187,7 +187,7 @@ class Update extends Component {
 
   render () {
     return (
-      <div className='update-page'>
+      <div className='page-container'>
         <Modal closeModal={this.hideModal} show={this.state.show} message={'Parcel successfully updated!'} /> 
         <Select
           className="basic-single dropdown-menu"

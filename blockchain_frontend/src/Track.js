@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './Form.css'
-import Select from 'react-select'
 
 
 const backend_url = "http://localhost:8000";
@@ -12,7 +11,17 @@ class Track extends Component {
     super(props)
     this.state = {
       tracking: "",
-      transactions: null
+      transactions: null,
+      txHistory: []
+    }
+  }
+
+  getTxName = txName => {
+    switch (txName) {
+      case "org.parceldelivery.model.CreateParcel":
+        return "Create Parcel"
+      case "org.parceldelivery.model.UpdateParcel":
+        return "Update Parcel"
     }
   }
 
@@ -20,10 +29,24 @@ class Track extends Component {
     event.preventDefault()
     try {
       let resp = await axios.get(`${backend_url}/parcels/getParcelTx`, {
-        parcelID: this.state.tracking
-      })      
-      this.state.transactions = resp.data.txHistory
-      console.log(this.state.transactions)
+        params: {
+          parcelID: this.state.tracking
+        }
+      })
+      await this.setState({
+        transactions: resp.data.txHistory
+      })
+      let tempTXArray = []
+
+      for (var i = 0; i < this.state.transactions.length; i++) {
+        let transresp = await axios.get(`${hyperledger_url}/api/system/historian/${this.state.transactions[i]}`).then((response) => {
+          tempTXArray[i] = response.data
+        });
+      }
+      this.setState({
+        txHistory: tempTXArray
+      })
+
     } catch (err) {
       console.error(err)
     }
@@ -33,30 +56,43 @@ class Track extends Component {
     this.setState({
       [event.target.id]: event.target.value
     })
-    console.log(this.state.tracking)
   }
 
   render () {
     return (
-      <React.Fragment>
-        <form onSubmit={this.submitHandler.bind(this)} className="user-form">
+      <div className="page-container">
+        <form onSubmit={this.submitHandler.bind(this)} className="tracking-form">
           <p>Tracking Number:</p>
           <input type='text'
             id='tracking'
             onChange={this.fieldChangeHandler}
             className='input-field' />
 
-          <button type='submit' className="btn-primary btn-submit">
+          <button type='submit' className="btn-primary btn-submit-track">
             TRACK
           </button>
         </form>
 
-        {(this.state.transactions) ? 
-          <React.Fragment>
+        <React.Fragment>
+          {this.state.txHistory.length === 0 ? 
+            null
+            : (
+             <div className="card-list">
+              {this.state.txHistory.map((transaction) =>
+                <article className="data-card">
+                  <h3>{this.getTxName(transaction.transactionType)}</h3>
+                  <p><b>Location: </b>{transaction.eventsEmitted[0].location}</p>
+                  <p><b>Logistics Company: </b>{transaction.eventsEmitted[0].logisticCompany.split('#')[1]}</p>
+                  <p><b>Status: </b>{transaction.eventsEmitted[0].status}</p>
+                  <p>{`Transaction carried out at: ${new Date(transaction.transactionTimestamp)}`}</p>
+                </article>
+              )}
+             </div> 
+          )}
+        </React.Fragment>
 
-          </React.Fragment>
-        : null }
-      </React.Fragment>
+
+      </div>
     )
   }
 }
