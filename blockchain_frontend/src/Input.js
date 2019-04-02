@@ -5,15 +5,22 @@ import React, {Component} from 'react';
 import Modal from './Modal.js';
 import './Form.css'
 import Select from 'react-select'
+import { config } from './config.js';
 
 const backend_url = "http://localhost:8000";
 const hyperledger_url = "http://68.183.184.3:9000";
 const axios = require('axios');
 const uuidv4 = require('uuid/v4');
+const participants = config.logParticipants.split(",");
+const options = participants.map(v => ({
+  label: v,
+  value: v
+}));
 
 class Input extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       description: "",
       weight: "",
@@ -27,10 +34,7 @@ class Input extends Component {
       userAddress: null,
       infoMessage: "",
       trackingID: "",
-      logisticCos: [
-        {value: "fedex", label: "Fedex"}, 
-        {value: "dhl", label: "DHL"}
-      ],
+      logisticCos: options,
       show: false
     }
   }
@@ -40,51 +44,58 @@ class Input extends Component {
     try {
       const trackingID = uuidv4();
 
-      let bc_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.CreateParcel`, {
-        "$class": "org.parceldelivery.model.CreateParcel",
-        "parcel": {
-          "$class": "org.parceldelivery.model.Parcel",
-          "trackingID": trackingID,
-          "itemDescription": this.state.description,
-          "parcelWeight": this.state.weight,
-          "recipientAddress": {
-          "$class": "org.parceldelivery.model.Address",
-          "house": this.state.house,
-          "street": this.state.street,
-          "country": this.state.country,
-          "postalCode": this.state.postal
-          },
-          "status": "REGISTERED",
-          "location": this.state.userAddress.country,
-          "invoice": this.state.invoiceBase64,
-          "returnInformation": this.state.userAddress.house + this.state.userAddress.street + this.state.userAddress.country + this.state.userAddress.postal,
-          "logisticCompany": `resource:org.parceldelivery.model.LogisticCompany#${this.state.logistic}`
+      if (!this.state.description || !this.state.weight || !this.state.house || !this.state.street 
+        || !this.state.country || !this.state.postal || !this.state.invoiceBase64 || !this.state.logistic) {
+          this.setState({ infoMessage: "Please fill up all the fields."});
+      } else {
+  
+        let bc_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.CreateParcel`, {
+          "$class": "org.parceldelivery.model.CreateParcel",
+          "parcel": {
+            "$class": "org.parceldelivery.model.Parcel",
+            "trackingID": trackingID,
+            "itemDescription": this.state.description,
+            "parcelWeight": this.state.weight,
+            "recipientAddress": {
+            "$class": "org.parceldelivery.model.Address",
+            "house": this.state.house,
+            "street": this.state.street,
+            "country": this.state.country,
+            "postalCode": this.state.postal
+            },
+            "status": "REGISTERED",
+            "location": this.state.userAddress.country,
+            "invoice": this.state.invoiceBase64,
+            "returnInformation": this.state.userAddress.house + this.state.userAddress.street + this.state.userAddress.country + this.state.userAddress.postal,
+            "logisticCompany": `resource:org.parceldelivery.model.LogisticCompany#${this.state.logistic}`
+          }
+        }).catch(err => {
+          this.setState( { infoMessage: "Invoice file is too large." });
+        })
+
+        const transactionID = bc_resp.data.transactionId
+
+        let parcel = {
+          trackingID: trackingID,
+          retailer: this.props.userID,
+          txHistory: [transactionID]
         }
-      })
 
-      const transactionID = bc_resp.data.transactionId
+        await axios.post(`${backend_url}/parcels/input`, {
+          parcel
+        })
 
-      let parcel = {
-        trackingID: trackingID,
-        retailer: this.props.userID,
-        txHistory: [transactionID]
+        await this.setState({ trackingID: trackingID })
+        
+        this.showModal()
       }
-
-      await axios.post(`${backend_url}/parcels/input`, {
-        parcel
-      })
-
-      await this.setState({ trackingID: trackingID })
-      
-      this.showModal()
 
     } catch (err) {
       if (err.response) {
         this.setState({ infoMessage: err.response.data.message })
       } else {
-        this.setState({ infoMessage: "Blockchain server error" })
+        this.setState({ infoMessage: "Invoice file is too large." })
       }
-      console.error(err)
     }
   }
 
@@ -135,7 +146,6 @@ class Input extends Component {
 
   hideModal = () =>
     this.setState({ show: false })
-
 
   async componentDidMount () {
     try {
@@ -206,7 +216,7 @@ class Input extends Component {
           <label htmlFor='invoiceFile' className='btn-secondary'>Choose File</label>
           <span className='file-selected'>{this.getFileName(this.state.invoiceFile)}</span>
           <input id='invoiceFile'
-            type='file'
+            type='file' accept=".jpg, .png, bmp, gif"
             onChange={this.uploadHandler.bind(this)} />
 
           <p>Logistic Company:</p>
