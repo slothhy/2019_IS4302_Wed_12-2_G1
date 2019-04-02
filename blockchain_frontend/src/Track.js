@@ -87,7 +87,7 @@ class Track extends Component {
                   <p><b>Status: </b>{transaction.eventsEmitted[0].status}</p>
                   <p><b>Timestamp: </b>{`${new Date(transaction.transactionTimestamp)}`}</p>
                   
-                  <p className="parcel-condition"><img src={transaction.eventsEmitted[0].conditionOfParcel}/></p>
+                  <img src={transaction.eventsEmitted[0].conditionOfParcel}/>
                 </article>
               )}
              </div> 

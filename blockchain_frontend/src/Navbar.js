@@ -26,7 +26,7 @@ const renderOptions = (role, nav) => {
           Update Parcel
         </button>
       )
-    case "customs":
+    case "custom":
       return (
         <button type="button" 
           className="btn-input"
