@@ -3,20 +3,21 @@ const passport = require('passport');
 const router = require('express').Router();
 const auth = require('../auth');
 const Users = mongoose.model('Users');
+const validator = require('email-validator');
 
 //POST new user route (optional, everyone has access)
 router.post('/', auth.optional, (req, res, next) => {
   const { body: { user } } = req;
 
-  if(!user.email) {
+  if(!user.email || !validator.validate(user.email)) {
     return res.status(422).json({
-      message: "Email is required"
+      message: "Please provide a valid email address."
     });
-  }
+  } 
 
-  if(!user.password) {
+  if(!user.password || !user.name || !user.house || !user.street || !user.country || !user.postal || !user.contact) {
     return res.status(422).json({
-      message: "Password is required"
+      message: "Please fill in all the fields."
     });
   }
 
@@ -46,7 +47,7 @@ router.post('/login', auth.optional, (req, res, next) => {
     return res.status(401).json({
       message: "Email is required"
     });
-  }
+  } 
 
   if(!user.password) {
     return res.status(401).json({
