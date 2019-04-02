@@ -19,6 +19,8 @@ class Update extends Component {
       parcel: null,
       status: "",
       location: "",
+      conditionFile: null,
+      conditionOfParcel: "",
       parcelTransfer: "",
       logisticCos: [
         {value: "fedex", label: "Fedex"}, 
@@ -31,9 +33,10 @@ class Update extends Component {
     event.preventDefault()
     
     try {
-      let changedOptions = ['status', 'location', 'parcelTransfer']
+      let changedOptions = ['conditionOfParcel', 'status', 'location', 'parcelTransfer']
       let reqData = {
         logisticCompany: "resource:org.parceldelivery.model.LogisticCompany#fedex",
+        conditionOfParcel: "",
         status: "",
         hasChangedLC: false,
         location: ""
@@ -60,7 +63,7 @@ class Update extends Component {
         "$class": "org.parceldelivery.model.UpdateParcel",
         "parcel": `resource:org.parceldelivery.model.Parcel#${this.state.parcel.trackingID}`,
         "logisticCompany": reqData.logisticCompany,
-        "conditionOfParcel": "test",
+        "conditionOfParcel": reqData.conditionOfParcel,
         "status": reqData.status,
         "hasChangedLC": reqData.hasChangedLC,
         "location": reqData.location
@@ -76,6 +79,42 @@ class Update extends Component {
     })
     console.log(this.state)
   }
+
+  base64Encode = file => {
+    try{
+      var reader = new FileReader();
+
+      // read binary data
+      let conditionPromise = new Promise((resolve, reject) => {
+        reader.onerror = () => {
+          reader.abort();
+          reject(console.error("Problem parsing condition"));
+        };
+
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        reader.readAsDataURL(file);
+      });
+      return conditionPromise
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  async uploadHandler (event) {
+    let conditionFile = event.target.files[0]
+    await this.setState({ conditionFile })
+
+    this.base64Encode(this.state.conditionFile).then((result) => {
+      this.setState({
+        conditionOfParcel: result
+      })
+    })
+  }
+
+  getFileName = file =>
+    (file === null) ? 'No file chosen' : file.name
 
 
   showModal = () =>
@@ -185,6 +224,15 @@ class Update extends Component {
                 <p>Location:</p>
                 <input type='text' id='location' className="update-field" onChange={this.fieldChangeHandler} />
                 
+                <p>Condition of parcel:</p>
+                <span className='file-selected'>{this.getFileName(this.state.conditionFile)}</span>
+                <input id='conditionFile'
+                  type='file'
+                  onChange={this.uploadHandler.bind(this)} />
+                <label htmlFor='conditionFile' className='btn-secondary'>Choose File</label>
+
+
+
                 <p>Transfer Ownership:</p>
                 <Select
                   className="basic-single transfer-dropdown"

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './Form.css'
+import Select from 'react-select'
+
 
 const backend_url = "http://localhost:8000";
 const hyperledger_url = "http://68.183.184.3:9000";
@@ -9,16 +11,8 @@ class Track extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      tracking: ""
-    }
-  }
-
-  async componentDidMount () {
-    try {
-      
-
-    } catch (err) {
-      console.error(err)
+      tracking: "",
+      transactions: null
     }
   }
 
@@ -29,6 +23,8 @@ class Track extends Component {
         parcelID: this.state.tracking
       })      
       console.log(resp.data.txHistory)
+      this.state.transactions = resp.data.txHistory
+      console.log(this.state.transactions)
     } catch (err) {
       console.error(err)
     }
@@ -55,6 +51,12 @@ class Track extends Component {
             TRACK
           </button>
         </form>
+
+        {(this.state.transactions) ? 
+          <React.Fragment>
+
+          </React.Fragment>
+        : null }
       </React.Fragment>
     )
   }
