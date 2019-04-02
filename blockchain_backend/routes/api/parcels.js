@@ -41,4 +41,15 @@ router.get('/getParcelTx', (req, res, next) => {
   });
 })
 
+router.post('/appendParcelTx', (req, res, next) => {
+  trackingID = req.body.trackingID;
+  transactionID = req.body.transactionID;
+  Parcels.updateOne({ trackingID: trackingID}, {$push : {"txHistory": transactionID}}).then((parcel) => {
+    return res.status(200);
+  }).catch((err) => {
+    console.log(err);
+    return res.status(500);
+  })
+})
+
 module.exports = router;

@@ -38,7 +38,7 @@ class Update extends Component {
     try {
       let changedOptions = ['conditionOfParcel', 'status', 'location', 'parcelTransfer']
       let reqData = {
-        logisticCompany: "resource:org.parceldelivery.model.LogisticCompany#fedex",
+        logisticCompany: "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID,
         conditionOfParcel: "",
         status: "",
         hasChangedLC: false,
@@ -46,7 +46,7 @@ class Update extends Component {
       }
       changedOptions.map(fieldName => {
         if (fieldName === 'parcelTransfer') {
-          if (this.state[fieldName] && this.state[fieldName] !== 'fedex') {
+          if (this.state[fieldName] && this.state[fieldName] !== this.props.userID) {
             reqData.hasChangedLC = true
             reqData.logisticCompany = `resource:org.parceldelivery.model.LogisticCompany#${this.state[fieldName]}`
           }
@@ -62,7 +62,7 @@ class Update extends Component {
         }
       })
 
-      axios.post(`${hyperledger_url}/api/org.parceldelivery.model.UpdateParcel`, {
+      await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.UpdateParcel`, {
         "$class": "org.parceldelivery.model.UpdateParcel",
         "parcel": `resource:org.parceldelivery.model.Parcel#${this.state.parcel.trackingID}`,
         "logisticCompany": reqData.logisticCompany,
@@ -70,6 +70,10 @@ class Update extends Component {
         "status": reqData.status,
         "hasChangedLC": reqData.hasChangedLC,
         "location": reqData.location
+      }).then(response => {
+        axios.post(`${backend_url}/parcels/appendParcelTx`, {
+          trackingID: this.state.parcel.trackingID, transactionID: response.data.transactionId
+        })
       })
     } catch (err) {
       console.error(err)
@@ -129,11 +133,13 @@ class Update extends Component {
 
   async componentDidMount () {
     try {
+      console.log(this.props.userID);
       let resp = await axios.get(`${hyperledger_url}/api/org.parceldelivery.model.Parcel`, {
         params: {
         "filter" : {"where": {"logisticCompany": "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID}}
         }
       })
+      
       let parcelIDs = resp.data.map(parcel => {
         let parcelOption = {
           value: parcel.trackingID,
