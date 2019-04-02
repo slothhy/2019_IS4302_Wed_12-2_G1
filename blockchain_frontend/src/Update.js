@@ -35,51 +35,55 @@ class Update extends Component {
   async submitHandler (event) {
     event.preventDefault()
     
-    try {
-      let changedOptions = ['conditionOfParcel', 'status', 'location', 'parcelTransfer']
-      let reqData = {
-        logisticCompany: "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID,
-        conditionOfParcel: "",
-        status: "",
-        hasChangedLC: false,
-        location: ""
-      }
-      changedOptions.map(fieldName => {
-        if (fieldName === 'parcelTransfer') {
-          if (this.state[fieldName] && this.state[fieldName] !== this.props.userID) {
-            reqData.hasChangedLC = true
-            reqData.logisticCompany = `resource:org.parceldelivery.model.LogisticCompany#${this.state[fieldName]}`
-          }
-        } else {
-          // for parcel status and location
-          if (this.state[fieldName]) {
-            // value changed
-            reqData[fieldName] = this.state[fieldName]
-          } else {
-            // no value input
-            reqData[fieldName] = this.state.parcel[fieldName]
-          }
+    if (!this.state.conditionOfParcel || !this.state.status) {
+        this.setState({ infoMessage: "Please fill up all the fields."});
+    } else {
+      try {
+        let changedOptions = ['conditionOfParcel', 'status', 'location', 'parcelTransfer']
+        let reqData = {
+          logisticCompany: "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID,
+          conditionOfParcel: "",
+          status: "",
+          hasChangedLC: false,
+          location: ""
         }
-      })
-
-      await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.UpdateParcel`, {
-        "$class": "org.parceldelivery.model.UpdateParcel",
-        "parcel": `resource:org.parceldelivery.model.Parcel#${this.state.parcel.trackingID}`,
-        "logisticCompany": reqData.logisticCompany,
-        "conditionOfParcel": reqData.conditionOfParcel,
-        "status": reqData.status,
-        "hasChangedLC": reqData.hasChangedLC,
-        "location": reqData.location
-      }).then(response => {
-        axios.post(`${backend_url}/parcels/appendParcelTx`, {
-          trackingID: this.state.parcel.trackingID, transactionID: response.data.transactionId
+        changedOptions.map(fieldName => {
+          if (fieldName === 'parcelTransfer') {
+            if (this.state[fieldName] && this.state[fieldName] !== this.props.userID) {
+              reqData.hasChangedLC = true
+              reqData.logisticCompany = `resource:org.parceldelivery.model.LogisticCompany#${this.state[fieldName]}`
+            }
+          } else {
+            // for parcel status and location
+            if (this.state[fieldName]) {
+              // value changed
+              reqData[fieldName] = this.state[fieldName]
+            } else {
+              // no value input
+              reqData[fieldName] = this.state.parcel[fieldName]
+            }
+          }
         })
-      })
 
-      this.showModal()
+        await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.UpdateParcel`, {
+          "$class": "org.parceldelivery.model.UpdateParcel",
+          "parcel": `resource:org.parceldelivery.model.Parcel#${this.state.parcel.trackingID}`,
+          "logisticCompany": reqData.logisticCompany,
+          "conditionOfParcel": reqData.conditionOfParcel,
+          "status": reqData.status,
+          "hasChangedLC": reqData.hasChangedLC,
+          "location": reqData.location
+        }).then(response => {
+          axios.post(`${backend_url}/parcels/appendParcelTx`, {
+            trackingID: this.state.parcel.trackingID, transactionID: response.data.transactionId
+          })
+        })
 
-    } catch (err) {
-      console.error(err)
+        this.showModal()
+
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
@@ -185,7 +189,6 @@ class Update extends Component {
     return (
       <div className='update-page'>
         <Modal closeModal={this.hideModal} show={this.state.show} message={'Parcel successfully updated!'} /> 
-
         <Select
           className="basic-single dropdown-menu"
           classNamePrefix="select"
@@ -230,6 +233,7 @@ class Update extends Component {
               </table>
               
               <form onSubmit={this.submitHandler.bind(this)} className="update-form">
+              <span className="auth-error">{this.state.infoMessage}</span>
                 <p>Status:</p>
                 <input type='text' id='status' className="update-field" onChange={this.fieldChangeHandler} />
                 

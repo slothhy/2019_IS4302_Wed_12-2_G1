@@ -22,7 +22,6 @@ class Track extends Component {
       let resp = await axios.get(`${backend_url}/parcels/getParcelTx`, {
         parcelID: this.state.tracking
       })      
-      console.log(resp.data.txHistory)
       this.state.transactions = resp.data.txHistory
       console.log(this.state.transactions)
     } catch (err) {
