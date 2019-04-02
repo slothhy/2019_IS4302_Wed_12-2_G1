@@ -18,6 +18,11 @@ form p {
   margin-bottom: 10px;
 }
 
+form textarea {
+  resize: none;
+  width: 550px;
+}
+
 .input-field {
   height: 32px;
   box-sizing: border-box;
@@ -156,8 +161,7 @@ td, th {
   position: absolute;
   top: 10px;
   width: 600px;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .tracking-form p {

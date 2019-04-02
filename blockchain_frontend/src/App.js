@@ -5,6 +5,7 @@ import Register from './Register.js';
 import Track from './Track.js';
 import Input from './Input.js';
 import Update from './Update.js';
+import Inspect from './Inspect.js';
 import './App.css';
 
 class App extends Component {
@@ -77,6 +78,7 @@ class App extends Component {
         return (
           <div className="page">
             <Navbar userID={this.state.userID} role={this.state.role} isUser={this.state.logged_in} logout={this.logoutUser} nav={this.changeTab}/>
+            <Inspect userID={this.state.userID} />
           </div>
         )
       case "track": 
