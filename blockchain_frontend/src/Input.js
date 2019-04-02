@@ -135,10 +135,13 @@ class Input extends Component {
   async componentDidMount () {
     try {
       let resp = await axios.get(`${backend_url}/users/getAddress`, {
-        userID: this.props.userID
+        params: {
+          userID: this.props.userID
+        }
       })
 
       this.setState({ userAddress: resp.data.userAddress })
+     
     } catch (err) {
       console.error(err)
     }

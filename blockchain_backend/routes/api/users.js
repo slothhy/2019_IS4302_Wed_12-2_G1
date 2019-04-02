@@ -78,10 +78,10 @@ router.post('/login', auth.optional, (req, res, next) => {
 });
 
 router.get('/getAddress', (req, res, next) => {
-  const { body: { userID }} = req;
-
-  Users.findOne({ userID })
+  let userID = req.query.userID
+  Users.findOne({ email : userID })
   .then((user) => {
+    
     if(!user) {
       return res.status(401).json({
         message: "Invalid retailer"
