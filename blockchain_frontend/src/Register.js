@@ -33,7 +33,6 @@ class Register extends Component {
         country: this.state.country,
         postal: this.state.postal,
         contact: this.state.contact,
-        role: "retailer"
       }
 
       let resp = await axios.post(`${backend_url}/users`, { 

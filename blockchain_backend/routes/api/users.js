@@ -21,6 +21,7 @@ router.post('/', auth.optional, (req, res, next) => {
     });
   }
 
+  user.role = "retailer";
   const finalUser = new Users(user);
 
   finalUser.setPassword(user.password);
