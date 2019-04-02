@@ -25,7 +25,7 @@ class Update extends Component {
       parcel: null,
       status: "",
       location: "",
-      conditionFile: null,
+      conditionFile: "",
       conditionOfParcel: "",
       parcelTransfer: "",
       logisticCos: options
@@ -75,6 +75,9 @@ class Update extends Component {
           trackingID: this.state.parcel.trackingID, transactionID: response.data.transactionId
         })
       })
+
+      this.showModal()
+
     } catch (err) {
       console.error(err)
     }
@@ -181,7 +184,7 @@ class Update extends Component {
   render () {
     return (
       <div className='update-page'>
-        {/* <Modal closeModal={this.hideModal} show={this.state.show} message={`Parcel successfully logged! Tracking ID is ${this.state.trackingID}`} /> */}
+        <Modal closeModal={this.hideModal} show={this.state.show} message={'Parcel successfully updated!'} /> 
 
         <Select
           className="basic-single dropdown-menu"
