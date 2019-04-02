@@ -43,6 +43,7 @@ class Track extends Component {
           tempTXArray[i] = response.data
         });
       }
+
       this.setState({
         txHistory: tempTXArray
       })
@@ -84,7 +85,9 @@ class Track extends Component {
                   <p><b>Location: </b>{transaction.eventsEmitted[0].location}</p>
                   <p><b>Logistics Company: </b>{transaction.eventsEmitted[0].logisticCompany.split('#')[1]}</p>
                   <p><b>Status: </b>{transaction.eventsEmitted[0].status}</p>
-                  <p>{`Transaction carried out at: ${new Date(transaction.transactionTimestamp)}`}</p>
+                  <p><b>Timestamp: </b>{`${new Date(transaction.transactionTimestamp)}`}</p>
+                  
+                  <p className="parcel-condition"><img src={transaction.eventsEmitted[0].conditionOfParcel}/></p>
                 </article>
               )}
              </div> 

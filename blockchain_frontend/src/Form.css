@@ -166,9 +166,9 @@ td, th {
 
 .card-list {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   padding-top: 80px;
+  flex-direction: column;
 }
 
 .data-card {
@@ -181,6 +181,26 @@ td, th {
   padding-right: 20px;
   padding-left: 20px;
   box-shadow: 0 4px 8px 0 var(--primary-color);
+  position: relative;
+}
+
+.data-card img[src] {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  width: 200px;
+  height: 200px;
+}
+
+img {
+  display: none;
+}
+
+.data-card img:hover {
+  transform: scale(2);
+  z-index: 9999;
+  right: 100px;
 }
 
 .btn-submit-track {
