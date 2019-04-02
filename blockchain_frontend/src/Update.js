@@ -4,10 +4,16 @@ import React, {Component} from 'react';
 import Modal from './Modal.js';
 import './Form.css'
 import Select from 'react-select'
+import { config } from './config.js';
 
 const backend_url = "http://localhost:8000";
 const hyperledger_url = "http://68.183.184.3:9000";
 const axios = require('axios');
+const participants = config.logParticipants.split(",");
+const options = participants.map(v => ({
+  label: v,
+  value: v
+}));
 
 class Update extends Component {
   constructor(props) {
@@ -22,10 +28,7 @@ class Update extends Component {
       conditionFile: null,
       conditionOfParcel: "",
       parcelTransfer: "",
-      logisticCos: [
-        {value: "fedex", label: "Fedex"}, 
-        {value: "dhl", label: "DHL"}
-      ]
+      logisticCos: options
     }
   }
 
@@ -128,7 +131,7 @@ class Update extends Component {
     try {
       let resp = await axios.get(`${hyperledger_url}/api/org.parceldelivery.model.Parcel`, {
         params: {
-        "filter" : {"where": {"logisticCompany": "resource:org.parceldelivery.model.LogisticCompany#fedex"}}
+        "filter" : {"where": {"logisticCompany": "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID}}
         }
       })
       let parcelIDs = resp.data.map(parcel => {
