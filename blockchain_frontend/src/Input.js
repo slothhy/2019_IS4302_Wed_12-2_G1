@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import Modal from './Modal.js';
 import './Form.css'
+import Select from 'react-select'
 
 const backend_url = "http://localhost:8000";
 const hyperledger_url = "http://68.183.184.3:9000";
@@ -26,6 +27,10 @@ class Input extends Component {
       userAddress: null,
       infoMessage: "",
       trackingID: "",
+      logisticCos: [
+        {value: "fedex", label: "Fedex"}, 
+        {value: "dhl", label: "DHL"}
+      ],
       show: false
     }
   }
@@ -53,7 +58,7 @@ class Input extends Component {
           "location": this.state.userAddress.country,
           "invoice": this.state.invoiceBase64,
           "returnInformation": this.state.userAddress.house + this.state.userAddress.street + this.state.userAddress.country + this.state.userAddress.postal,
-          "logisticCompany": "resource:org.parceldelivery.model.LogisticCompany#fedex"
+          "logisticCompany": `resource:org.parceldelivery.model.LogisticCompany#${this.state.logistic}`
         }
       })
 
@@ -147,6 +152,13 @@ class Input extends Component {
     }
   }
 
+  dropdownHandler = fieldName => async (selectedOption) => {
+    await this.setState({
+      [fieldName] : selectedOption.value
+    })
+    console.log(this.state[fieldName])
+  }
+
   render () {
     return (
       <React.Fragment>
@@ -198,10 +210,14 @@ class Input extends Component {
             onChange={this.uploadHandler.bind(this)} />
 
           <p>Logistic Company:</p>
-          <input type='text'
-            id='logistic'
-            onChange={this.fieldChangeHandler}
-            className='input-field' />
+          <Select
+            className="basic-single transfer-dropdown"
+            classNamePrefix="select"
+            placeholder="Select company for transfer..."
+            name="transfer"
+            options={this.state.logisticCos}
+            onChange={this.dropdownHandler("logistic")}
+          />
 
           <button type='submit' className="btn-primary btn-submit">
             INPUT
