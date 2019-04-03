@@ -166,7 +166,6 @@ class Input extends Component {
     await this.setState({
       [fieldName] : selectedOption.value
     })
-    console.log(this.state[fieldName])
   }
 
   render () {
