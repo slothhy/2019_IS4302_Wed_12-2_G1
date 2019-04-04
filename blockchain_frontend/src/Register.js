@@ -17,7 +17,17 @@ class Register extends Component {
       country: "",
       postal: "",
       contact: "",
-      infoMessage: ""
+      infoMessage: "",
+      touched: {
+        email: false,
+        password: false,
+        name: false,
+        house: false,
+        street: false,
+        country: false,
+        postal: false,
+        contact: false
+      }
     }
   }
 
@@ -67,11 +77,13 @@ class Register extends Component {
     })
   }
 
+  /**
   handleEmailChange = event => {
     this.setState( { email: event.target.value }, () => {
       this.validateEmail();
     });
   }
+  */
 
   handlePasswordChange = event => {
     this.setState({ password: event.target.value }, () => {
@@ -79,6 +91,7 @@ class Register extends Component {
     });
   }
 
+  /**
   handleNameChange = event => {
     this.setState({ name: event.target.value }, () => {
       this.validateName();
@@ -114,120 +127,96 @@ class Register extends Component {
       this.validateContact();
     });
   }
-
+*/
+  validate() {
+    return {
+      email: this.validateEmail(),
+      password: this.validatePassword(),
+      name: this.validateName(),
+      house: this.validateHouse(),
+      street: this.validateStreet(),
+      country: this.validateCountry(),
+      postal: this.validatePostal(),
+      contact: this.validateContact()
+    }
+  }
   validateEmail = () => {
     const { email } = this.state;
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var errorMessage = '';
-    if (!email.match(regex)) {
-      errorMessage = 'Please enter a valid email';
+    //var errorMessage = '';
+    if (email === "" || !email.match(regex)) {
+      //errorMessage = 'Please enter a valid email';
+      return true;
     } else {
-      errorMessage = '';
+      //errorMessage = '';
+      return false;
     }
+    /**
     this.setState({
       infoMessage: errorMessage
     });
+    */
   }
 
   validatePassword = () => {
     const { password } = this.state;
     var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
-    var errorMessage = '';
-    if (!password.match(regex)) {
-      errorMessage = 'Password should contain at least 1 lowercase character, 1 uppercase character, 1 numeric character, and 1 special character';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (password === "" ||!password.match(regex));
   }
 
   validateName = () => {
     const { name } = this.state;
     var regex = /^[a-zA-Z\s]+$/
-    var errorMessage = '';
-    if (!name.match(regex)) {
-      errorMessage = 'Name should only contain letters';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (name === "" || !name.match(regex));
   }
 
   validateHouse = () => {
     const { house } = this.state;
     var regex = /^[a-zA-Z0-9\s]+$/
-    var errorMessage = '';
-    if (!house.match(regex)) {
-      errorMessage = 'House should only contain letters and numbers';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (house === "" || !house.match(regex));
   }
 
   validateStreet = () => {
     const { street } = this.state;
     var regex = /^[a-zA-Z0-9\s]+$/
-    var errorMessage = '';
-    if (!street.match(regex)) {
-      errorMessage = 'Street should only contain letters and numbers';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (street === "" || !street.match(regex));
   }
 
   validateCountry = () => {
     const { country } = this.state;
     var regex = /^[a-zA-Z\s]+$/
-    var errorMessage = '';
-    if (!country.match(regex)) {
-      errorMessage = 'Country name should contain only letters';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (country === "" || !country.match(regex));
   }
 
   validatePostal = () => {
     const { postal } = this.state;
     var regex = /^[a-zA-Z0-9]+$/
-    var errorMessage = '';
-    if (!postal.match(regex)) {
-      errorMessage = 'Postal code should contain only letters and numbers';
-    } else {
-      errorMessage = '';
-    }
-    this.setState({
-      infoMessage: errorMessage
-    });
+    return (postal === "" || !postal.match(regex));
   }
 
   validateContact = () => {
     const { contact } = this.state;
     var regex = /^[0-9]+$/
-    var errorMessage = '';
-    if (!contact.match(regex)) {
-      errorMessage = 'Contact number should contain only numbers';
-    } else {
-      errorMessage = '';
-    }
+    return (contact === "" || !contact.match(regex));
+  }
+
+  handleBlur = id => event => {
     this.setState({
-      infoMessage: errorMessage
+      touched: { ...this.state.touched, [id]: true }
     });
   }
 
   render () {
+    const errors = this.validate();
+    const shouldMarkError = (id) => {
+      const hasError = errors[id];
+      const shouldShow = this.state.touched[id];
+
+      return hasError ? shouldShow : false;
+    };
+
+    const isEnabled = !Object.keys(errors).some(id => errors[id]);
+
     return (
       <React.Fragment>
         <form onSubmit={this.submitHandler.bind(this)} className="user-form">
@@ -235,52 +224,60 @@ class Register extends Component {
           <p>Email:</p>
           <input type='text'
             id='email'
-            onChange={this.handleEmailChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('email')}
+            className={shouldMarkError('email') ? 'error' : 'input-field'} />
 
           <p>Password:</p>
           <input type='password'
             id='password'
-            onChange={this.handlePasswordChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('password')}
+            className={shouldMarkError('password') ? 'error' : 'input-field'} />
 
           <p>Name:</p>
           <input type='text'
             id='name'
-            onChange={this.handleNameChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('name')}
+            className={shouldMarkError('name') ? 'error' : 'input-field'} />
 
           <p>House:</p>
           <input type='text'
             id='house'
-            onChange={this.handleHouseChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('house')}
+            className={shouldMarkError('house') ? 'error' : 'input-field'} />
           
           <p>Street:</p>
           <input type='text'
             id='street'
-            onChange={this.handleStreetChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('street')}
+            className={shouldMarkError('street') ? 'error' : 'input-field'} />
           
           <p>Country:</p>
           <input type='text'
             id='country'
-            onChange={this.handleCountryChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('country')}
+            className={shouldMarkError('country') ? 'error' : 'input-field'} />
           
           <p>Postal Code:</p>
           <input type='text'
             id='postal'
-            onChange={this.handlePostalChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('postal')}
+            className={shouldMarkError('postal') ? 'error' : 'input-field'} />
 
           <p>Contact:</p>
           <input type='text'
             id='contact'
-            onChange={this.handleContactChange}
-            className='input-field' />
+            onChange={this.fieldChangeHandler}
+            onBlur={this.handleBlur('contact')}
+            className={shouldMarkError('contact') ? 'error' : 'input-field'} />
 
-          <button type='submit' className="btn-primary btn-submit">
+          <button disabled={!isEnabled} type='submit' className="btn-primary btn-submit">
             REGISTER
           </button>
         </form>
