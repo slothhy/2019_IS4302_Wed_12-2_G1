@@ -11,11 +11,20 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      userID: "",
-      logged_in: false,
-      role: "",
-      tab: "register"
+    if (localStorage.hasOwnProperty('logged_in')) {
+      this.state = {
+        userID: JSON.parse(localStorage.getItem('userID')),
+        logged_in: true,
+        role: JSON.parse(localStorage.getItem('role')),
+        tab: ""
+      }
+    } else {
+      this.state = {
+        userID: "",
+        logged_in: false,
+        role: "",
+        tab: "register"
+      }
     }
   }
 
@@ -28,10 +37,13 @@ class App extends Component {
   loginUser = (user, role) => {
     this.setState({
       logged_in: true,
-      //role: role,
       role: role,
       tab: "",
       userID: user,
+    }, () => {
+      localStorage.setItem('logged_in', "true")
+      localStorage.setItem('role', JSON.stringify(this.state.role))
+      localStorage.setItem('userID', JSON.stringify(this.state.userID))
     })
   }
 
