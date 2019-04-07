@@ -18,6 +18,13 @@ async function CreateParcel(CreateParcel) {
       newParcel.location = CreateParcel.parcel.location;
 	  newParcel.returnInformation = CreateParcel.parcel.returnInformation;
       newParcel.logisticCompany = CreateParcel.parcel.logisticCompany;
+     
+      const event = getFactory().newEvent('org.parceldelivery.model', 'CreateParcelEvent');
+      event.logisticCompany = CreateParcel.parcel.logisticCompany; 
+      event.status = CreateParcel.parcel.status;
+      event.location = CreateParcel.parcel.location;
+      emit(event);     
+      
       return result.add(newParcel);
   });
 }
@@ -69,7 +76,7 @@ async function QueryByCustom(QueryByCustom) {
     customsParcel.logisticCompany = results[0].logisticCompany;
 
    	const event = getFactory().newEvent('org.parceldelivery.model', 'CustomQueryEvent');
-   	event.customsView = customsParcel;
+   	event.customsview = customsParcel;
    	emit(event);
 
     return customsParcel;
