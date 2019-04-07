@@ -37,12 +37,12 @@ new identities. For example, you can create 5 logisticsCompany `log1` `log2` to 
 and Custom `c1`. Next, start the rest server for the 6 identities created by entering the commands:
 
 
-    npm run start_rest-server log1@parceldeliverynetwork 9001
-    npm run start_rest-server log2@parceldeliverynetwork 9002
-    npm run start_rest-server log3@parceldeliverynetwork 9003
-    npm run start_rest-server log4@parceldeliverynetwork 9004
-    npm run start_rest-server log5@parceldeliverynetwork 9005
-    npm run start_rest-server c1@parceldeliverynetwork 8001
+        npm run start_rest-server log1@parceldeliverynetwork 9001
+        npm run start_rest-server log2@parceldeliverynetwork 9002
+        npm run start_rest-server log3@parceldeliverynetwork 9003
+        npm run start_rest-server log4@parceldeliverynetwork 9004
+        npm run start_rest-server log5@parceldeliverynetwork 9005
+        npm run start_rest-server c1@parceldeliverynetwork 8001
 
 
   ## MongoDB Setup <a name="MongoDBSetup"></a>
