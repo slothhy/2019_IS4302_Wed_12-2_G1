@@ -28,7 +28,6 @@ This section shows how our group set up Parcel Delivery Network Project.
 
 2. Clone a copy of our project files using the command:
 
-
     git clone https://github.com/slothhy/2019_IS4302_Wed_12-2_G1.git
 
 3. After cloning the directory, import the BNA into the playground and create
