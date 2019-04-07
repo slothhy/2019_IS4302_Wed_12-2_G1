@@ -265,7 +265,7 @@ class Update extends Component {
                   onChange={this.dropdownHandler("parcelTransfer")}
                 />
 
-                <input type='submit' value='UPDATE' className="btn-primary btn-submit" />
+                <input type='submit' value='UPDATE' className="btn-primary btn-update" />
               </form>
             </React.Fragment>
           : null }

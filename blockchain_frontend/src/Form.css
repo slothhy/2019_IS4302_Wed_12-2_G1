@@ -108,6 +108,7 @@ input[type='file'] {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
 }
 
 .modal-window {
@@ -222,5 +223,13 @@ img {
 }
 
 .btn-submit-track:hover {
+  border-width: 2px;
+}
+
+.btn-update {
+  margin-top: 30px;
+}
+
+.btn-update:hover {
   border-width: 2px;
 }

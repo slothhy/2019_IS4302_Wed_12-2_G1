@@ -53,6 +53,8 @@ class App extends Component {
       authtoken: "",
       tab: "",
       userID: ""
+    }, () => {
+      localStorage.clear()
     })
   }
 
