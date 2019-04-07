@@ -8,11 +8,12 @@ Project Group Members:<a name="group"></a>
 * Toh Yun Qi Cheryl
 
 # Table of Contents
-1. [Introduction](#Introduction)
-2. [Parcel Delivery Network Setup](#Parcel Delivery Network Setup Guide)
-3. [MongoDB Setup](#MongoDB Setup)
-4. [Backend Setup](#Backend Setup)
-5. [Frontend Setup](#Frontend Setup)
+1. [Introduction](Introduction)
+2. [Parcel Delivery Network Setup](#ParcelDeliveryNetworkSetup)
+3. [MongoDB Setup](#MongoDBSetup)
+4. [Backend Setup](#BackendSetup)
+5. [Frontend Setup](#FrontendSetup)
+
 
 ## Introduction
 This project aims to solve accountability, traceability and transparency issues
@@ -20,15 +21,16 @@ of the cross-border parcel delivery industry by providing a blockchain
 infrastructure which stores parcels' information.
 `MongoDB` is used for the database and `React` is used in the frontend.
 
-## Parcel Delivery Network Setup Guide
+## Parcel Delivery Network Setup Guide <a name="ParcelDeliveryNetworkSetup"></a>
 This section shows how our group set up Parcel Delivery Network Project.
 
 1. Set up Hyperledger composer by following the instructions from
 `https://github.com/suenchunhui/easy-hyperledger-composer.`
 
 2. Clone a copy of our project files using the command:
-
-    git clone https://github.com/slothhy/2019_IS4302_Wed_12-2_G1.git
+    
+    
+        git clone https://github.com/slothhy/2019_IS4302_Wed_12-2_G1.git
 
 3. After cloning the directory, import the BNA into the playground and create
 new identities. For example, you can create 5 logisticsCompany `log1` `log2` to `log5`,
@@ -42,7 +44,8 @@ and Custom `c1`. Next, start the rest server for the 6 identities created by ent
     npm run start_rest-server log5@parceldeliverynetwork 9005
     npm run start_rest-server c1@parceldeliverynetwork 8001
 
-  ## MongoDB Setup
+
+  ## MongoDB Setup <a name="MongoDBSetup"></a>
 Next, install `MongoDB` for Ubuntu 16.04 by entering the following commands:
 
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
@@ -61,7 +64,7 @@ The script contains a list of preconfigured usernames and passwords mainly which
     mongo < setup.js
 
 
-  ## Backend Setup
+  ## Backend Setup <a name="BackendSetup"></a>
 
 From the base directory of the downloaded file, enter the following commands
 to set up the backend:
@@ -81,7 +84,7 @@ Then, execute the following commands to install and start the backend:
     npm install
     npm start
 
-## Frontend Setup
+## Frontend Setup <a name="FrontendSetup"></a>
 Locate the frontend directory and write appropriate configurations for the participants. Configure the ports in `config.js` to be the same as the ones in the Hyperledger rest server:
 
     cd ../blockchain_frontend
