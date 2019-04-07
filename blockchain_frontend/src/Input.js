@@ -45,9 +45,9 @@ class Input extends Component {
     try {
       const trackingID = uuidv4();
 
-      if (!this.state.description || !this.state.weight || !this.state.house || !this.state.street 
-        || !this.state.country || !this.state.postal || !this.state.invoiceBase64 || !this.state.logistic) {
-          this.setState({ infoMessage: "Please fill up all the fields."});
+      if (this.validateDescription() || this.validateWeight() || this.validateHouse() || this.validateStreet() 
+        || this.validateCountry() || this.validatePostal() || this.validateInvoiceBase64() || this.validateLogistic()) {
+          this.setState({ infoMessage: "Please fill up all the fields with valid input."});
       } else {
         var participantIndex = participants.indexOf(this.state.logistic);
         var participantPort = participantsPorts[participantIndex];
@@ -109,8 +109,61 @@ class Input extends Component {
     })
   }
 
+  validateDescription = () => {
+    const { description } = this.state;
+    var regex = /^[a-zA-Z0-9\s]+$/
+    console.log("description length: " + description.length === 0);
+    return (description.length === 0 || !description.match(regex));
+  }
+
+  validateWeight = () => {
+    const { weight } = this.state;
+    var regex = /^\d+(\.\d{1,2})?$/
+    console.log("weight length: " + weight.length === 0);
+    return (weight.length === 0 || !weight.match(regex));
+  }
+
+  validateHouse = () => {
+    const { house } = this.state;
+    var regex = /^[a-zA-Z0-9\s]+$/
+    console.log("house length: " + house.length === 0);
+    return (house.length === 0 || !house.match(regex))
+  }
+
+  validateStreet = () => {
+    const { street } = this.state;
+    var regex = /^[a-zA-Z0-9\s]+$/
+    console.log("street length: " + street.length === 0);
+    return (street.length === 0 || !street.match(regex));
+  }
+
+  validateCountry = () => {
+    const { country } = this.state;
+    var regex = /^[a-zA-Z\s]+$/
+    console.log("country length: " + country.length === 0);
+    return (country.length === 0 || !country.match(regex));
+  }
+
+  validatePostal = () => {
+    const { postal } = this.state;
+    var regex = /^[a-zA-Z0-9]+$/
+    return (postal.length === 0 || !postal.match(regex));
+  }
+
+  validateInvoiceBase64 = () => {
+    const { invoiceBase64 } = this.state;
+    console.log("base64 length: " + invoiceBase64.length === 0);
+    return (invoiceBase64.length === 0);
+  }
+
+  validateLogistic = () => {
+    const { logistic } = this.state;
+    console.log("logistic length: " + logistic.length === 0);
+    return (logistic.length === 0);
+  }
+
   base64Encode = file => {
-    try{
+    try {
       var reader = new FileReader();
 
       // read binary data
@@ -170,7 +223,6 @@ class Input extends Component {
     await this.setState({
       [fieldName] : selectedOption.value
     })
-    console.log(this.state[fieldName])
   }
 
   render () {

@@ -52,7 +52,7 @@ class Login extends Component {
             className='input-field' />
 
           <p>Password:</p>
-          <input type='text'
+          <input type='password'
             id='password'
             onChange={this.fieldChangeHandler}
             className='input-field' />

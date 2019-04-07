@@ -62,8 +62,14 @@ transaction QueryByCustom {
   o String trackingID
 }
 
+event CreateParcelEvent {
+  --> LogisticCompany logisticCompany
+  o String status
+  o String location
+}
+
 event CustomQueryEvent {
-  o CustomsView customsView
+  o CustomsView customsview
 }
 
 event UpdateParcelEvent {

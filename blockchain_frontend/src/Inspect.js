@@ -47,7 +47,6 @@ class Inspect extends Component {
           tempTXArray[i] = response.data
         });
       }
-      console.log(tempTXArray)
 
       await this.setState({
         txHistory: tempTXArray
@@ -62,7 +61,6 @@ class Inspect extends Component {
     this.setState({
       [event.target.id]: event.target.value
     })
-    console.log(this.state.trackingField)
   }
 
   render () {
