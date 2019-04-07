@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import './Form.css'
+import { config } from './config.js';
 
-
-const backend_url = "http://localhost:8000";
-const hyperledger_url = "http://68.183.184.3:9000";
+const backend_url = config.backend_url;
+const participantsPorts = config.log_participants_ports.split(",");
+var hyperledger_url = config.hyperledger_url + ":" + participantsPorts[0];
 const axios = require('axios');
 
 class Track extends Component {

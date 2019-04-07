@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import './Form.css'
+import { config } from './config.js';
 
-const hyperledger_url = "http://68.183.184.3:9000";
+var hyperledger_url = config.hyperledger_url;
 const axios = require('axios');
+const customs = config.custom_participants.split(",");
+const customsPorts = config.custom_participants_ports.split(",");
 
 class Inspect extends Component {
   constructor(props) {
@@ -22,9 +25,12 @@ class Inspect extends Component {
       //console.log(this.state.trackingIDs);
 
       let tempTranArray = []
-
+      
+      var customIndex = customs.indexOf(this.props.userID);
+      var customPort = customsPorts[customIndex];
+      var hyperledgerConnection = hyperledger_url +  ":" + customPort;
       for (var i = 0; i < this.state.trackingIDs.length; i++) {
-        let bc_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.QueryByCustom`, {
+        let bc_resp = await axios.post(`${hyperledgerConnection}/api/org.parceldelivery.model.QueryByCustom`, {
         "$class": "org.parceldelivery.model.QueryByCustom", "trackingID": this.state.trackingIDs[i]
         })
         tempTranArray[i] = bc_resp.data.transactionId;
@@ -37,7 +43,7 @@ class Inspect extends Component {
       let tempTXArray = []
 
       for (var i = 0; i < this.state.transactions.length; i++) {
-        let transresp = await axios.get(`${hyperledger_url}/api/system/historian/${this.state.transactions[i]}`).then((response) => {
+        let transresp = await axios.get(`${hyperledgerConnection}/api/system/historian/${this.state.transactions[i]}`).then((response) => {
           tempTXArray[i] = response.data
         });
       }

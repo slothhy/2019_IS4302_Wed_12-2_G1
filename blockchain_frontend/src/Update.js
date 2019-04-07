@@ -6,10 +6,11 @@ import './Form.css'
 import Select from 'react-select'
 import { config } from './config.js';
 
-const backend_url = "http://localhost:8000";
-const hyperledger_url = "http://68.183.184.3:9000";
+const backend_url = config.backend_url;
 const axios = require('axios');
-const participants = config.logParticipants.split(",");
+const participants = config.log_participants.split(",");
+const participantsPorts = config.log_participants_ports.split(",");
+var hyperledger_url = config.hyperledger_url;
 const options = participants.map(v => ({
   label: v,
   value: v
@@ -65,7 +66,10 @@ class Update extends Component {
           }
         })
 
-        await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.UpdateParcel`, {
+        var participantIndex = participants.indexOf(this.props.userID);
+        var participantPort = participantsPorts[participantIndex];
+        var hyperledgerConnection = hyperledger_url +  ":" + participantPort;
+        await axios.post(`${hyperledgerConnection}/api/org.parceldelivery.model.UpdateParcel`, {
           "$class": "org.parceldelivery.model.UpdateParcel",
           "parcel": `resource:org.parceldelivery.model.Parcel#${this.state.parcel.trackingID}`,
           "logisticCompany": reqData.logisticCompany,
@@ -140,8 +144,10 @@ class Update extends Component {
 
   async componentDidMount () {
     try {
-      console.log(this.props.userID);
-      let resp = await axios.get(`${hyperledger_url}/api/org.parceldelivery.model.Parcel`, {
+      var participantIndex = participants.indexOf(this.props.userID);
+      var participantPort = participantsPorts[participantIndex];
+      var hyperledgerConnection = hyperledger_url +  ":" + participantPort;
+      let resp = await axios.get(`${hyperledgerConnection}/api/org.parceldelivery.model.Parcel`, {
         params: {
         "filter" : {"where": {"logisticCompany": "resource:org.parceldelivery.model.LogisticCompany#" + this.props.userID}}
         }
