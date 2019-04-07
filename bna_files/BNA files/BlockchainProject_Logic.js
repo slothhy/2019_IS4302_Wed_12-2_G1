@@ -3,7 +3,9 @@
  */
 
 /**
- * Create a new parcel
+ * Creates a new parcel
+ * A new event is emitted upon creation of a new parcel
+ * Events emitted is logisticCompany, status and location of the newly created parcel
  * @param {org.parceldelivery.model.CreateParcel} CreateParcel - the create parcel transaction
  * @transaction
  */
@@ -30,7 +32,9 @@ async function CreateParcel(CreateParcel) {
 }
 
 /**
- * Update an existing parcel
+ * Updates an existing parcel
+ * A new event is emitted upon an update to the parcel
+ * Events emitted is logisticCompany, status and location and conditionOfParcel of the updated parcel
  * @param {org.parceldelivery.model.UpdateParcel} UpdateParcel - the update parcel transaction
  * @transaction
  */
@@ -54,9 +58,9 @@ async function UpdateParcel(UpdateParcel) {
 }
 
 /**
- * Answers a query made by customs
+ * Answers a query made by Custom participant
  * @param {org.parceldelivery.model.QueryByCustom} QueryByCustom - the query by custom transaction
-  * @returns {org.parceldelivery.model.CustomsParcel} CustomsParcel
+ * @returns {org.parceldelivery.model.CustomsParcel} CustomsParcel
  * @transaction
  */
 async function QueryByCustom(QueryByCustom) {

@@ -7,7 +7,7 @@ rule createParcel {
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
     resource(v): "org.parceldelivery.model.Parcel"
-    condition: (true)
+    condition: (v.logisticCompany.ID == m.getIdentifier())
     action: ALLOW
 }
 
@@ -34,7 +34,7 @@ rule performParcelUpdate {
     participant(m): "org.parceldelivery.model.LogisticCompany"
     operation: CREATE
     resource(v): "org.parceldelivery.model.UpdateParcel"
-    condition: (true)
+    condition: (v.hasChangedLC && v.logisticCompany.ID != m.getIdentifier() || !v.hasChangedLC && v.logisticCompany.ID == m.getIdentifier() )
     action: ALLOW
 }
 
@@ -67,7 +67,7 @@ rule customsReadLogisticCompany {
 
 rule customReadQuery {
     description: "Allow customs to check parcel asset given trackingID"
-    participant(m): "org.parceldelivery.model.*"
+    participant(m): "org.parceldelivery.model.Custom"
     operation: CREATE
     resource(v): "org.parceldelivery.model.QueryByCustom"
     condition: (true)
