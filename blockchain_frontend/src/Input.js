@@ -7,11 +7,12 @@ import './Form.css'
 import Select from 'react-select'
 import { config } from './config.js';
 
-const backend_url = "http://localhost:8000";
-const hyperledger_url = "http://68.183.184.3:9000";
+const backend_url = config.backend_url;
 const axios = require('axios');
 const uuidv4 = require('uuid/v4');
-const participants = config.logParticipants.split(",");
+const participants = config.log_participants.split(",");
+const participantsPorts = config.log_participants_ports.split(",");
+var hyperledger_url = config.hyperledger_url;
 const options = participants.map(v => ({
   label: v,
   value: v
@@ -48,8 +49,11 @@ class Input extends Component {
         || !this.state.country || !this.state.postal || !this.state.invoiceBase64 || !this.state.logistic) {
           this.setState({ infoMessage: "Please fill up all the fields."});
       } else {
-  
-        let bc_resp = await axios.post(`${hyperledger_url}/api/org.parceldelivery.model.CreateParcel`, {
+        var participantIndex = participants.indexOf(this.state.logistic);
+        var participantPort = participantsPorts[participantIndex];
+        var hyperledgerConnection = hyperledger_url +  ":" + participantPort;
+
+        let bc_resp = await axios.post(`${hyperledgerConnection}/api/org.parceldelivery.model.CreateParcel`, {
           "$class": "org.parceldelivery.model.CreateParcel",
           "parcel": {
             "$class": "org.parceldelivery.model.Parcel",
@@ -70,7 +74,7 @@ class Input extends Component {
             "logisticCompany": `resource:org.parceldelivery.model.LogisticCompany#${this.state.logistic}`
           }
         }).catch(err => {
-          this.setState( { infoMessage: "Invoice file is too large." });
+          this.setState( { infoMessage: "Internal server error" });
         })
 
         const transactionID = bc_resp.data.transactionId
@@ -94,7 +98,7 @@ class Input extends Component {
       if (err.response) {
         this.setState({ infoMessage: err.response.data.message })
       } else {
-        this.setState({ infoMessage: "Invoice file is too large." })
+        this.setState({ infoMessage: "Internal server error." })
       }
     }
   }
